@@ -1,0 +1,365 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Hexo">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://eamon.xyz">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>（九）使用Shader绘制三角形 | Hexo</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css?rev=3.3.4">
+<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1273222950 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273222950%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://7xpw2b.com1.z0.glb.clouddn.com/hexo-sinppet/img/banner2.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="">
+            <img src="/img/avatar.jpg" alt="logo头像">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> Another is always ready. </h2>
+             
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/Unity/"><i class="fa fa-fw "></i>Unity</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/OpenGL/"><i class="fa fa-fw "></i>OpenGL</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="（九）使用Shader绘制三角形">
+            
+	            （九）使用Shader绘制三角形
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/27</span>
+    </span>
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>学会用使用可编程管线绘制图形可以算是OpenGL入门的一个里程碑，是面向GPU编程的第一步。</p>
+<p>在学习shader之前可以先大致看下OpenGL的渲染管线，在图中蓝色字部分就是可编程管线中三个重要的shader，其中Vertex Shader和Fragment Shader是最基础和硬件支持较为广泛的过程shader。</p>
+<p><img src="/2018/01/27/（九）使用Shader绘制三角形/pipeline.png" alt="pipeline"></p>
+<p>在之前的固定管线中，我们只需要调用gl的API设置绘制属性和传输绘制所需要的信息就能完成绘制，但这也限制了自由度。而在可编程管线中，我们可以选择自定义我们关心的可编程过程，实现自己想要的绘制效果。凡是都有两面性，提升了自由度，那必然会加大编程难度，先看下实现一个简单shader的几个基本步骤吧。</p>
+<h3 id="1-创建first-vs和first-fs-shader文件。"><a href="#1-创建first-vs和first-fs-shader文件。" class="headerlink" title="1.创建first.vs和first.fs shader文件。"></a>1.创建first.vs和first.fs shader文件。</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//first.vs</span></span><br><span class="line">attribute vec4 position;<span class="comment">//从外部传过来的顶点坐标</span></span><br><span class="line">attribute vec2 texcoord;<span class="comment">//从外部传过来的纹理坐标</span></span><br><span class="line"></span><br><span class="line">varying vec2 V_Texcoord;<span class="comment">//输出到片元的属性，顶点坐标</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//gl_Position是用来传递顶点坐标的，这里先不做任何处理直接传值</span></span><br><span class="line">	gl_Position=vec4(position.x, position.y, position.z, <span class="number">1.0</span>);</span><br><span class="line">	<span class="comment">//赋值给varying变量，这个值可以在fs中获得到</span></span><br><span class="line">	V_Texcoord = texcoord;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//first.fs</span></span><br><span class="line"><span class="comment">//兼容OpenGL ES 定义数值精度为mediump</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GL_ES</span></span><br><span class="line">precision mediump <span class="keyword">float</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">uniform sampler2D U_Texture;<span class="comment">//从外部传过来的纹理采样器</span></span><br><span class="line">varying vec2 V_Texcoord;	<span class="comment">//接收vs传过来的值</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//texture2D 内置函数 用于采样指定uv坐标下的纹理颜色</span></span><br><span class="line">	vec4 color = texture2D(U_Texture,V_Texcoord);</span><br><span class="line">	<span class="comment">//内置变量 设置最后该像素的颜色值</span></span><br><span class="line">	gl_FragColor= color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-加载first-vs和first-fs文件到内存。"><a href="#2-加载first-vs和first-fs文件到内存。" class="headerlink" title="2.加载first.vs和first.fs文件到内存。"></a>2.加载first.vs和first.fs文件到内存。</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> nFileSize = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* vsCode = (<span class="keyword">char</span>*)LoadFileContent(<span class="string">"Res/Shader/first.vs"</span>, nFileSize);</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* fsCode = (<span class="keyword">char</span>*)LoadFileContent(<span class="string">"Res/Shader/first.fs"</span>, nFileSize);</span><br></pre></td></tr></table></figure>
+<h3 id="3-编译first-vs和first-fs-shader。"><a href="#3-编译first-vs和first-fs-shader。" class="headerlink" title="3.编译first.vs和first.fs shader。"></a>3.编译first.vs和first.fs shader。</h3><p>在utils文件中定义CompileShader方法，后续需要编译shader的时候直接调用即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//utils.cpp</span></span><br><span class="line"><span class="function">GLuint <span class="title">CompileShader</span><span class="params">(GLenum shaderType, <span class="keyword">const</span> <span class="keyword">char</span> *shaderCode)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//创建一个shader</span></span><br><span class="line">	GLuint shader = glCreateShader(shaderType);</span><br><span class="line">	<span class="comment">//设置这个shader的源代码</span></span><br><span class="line">	glShaderSource(shader, <span class="number">1</span>, &amp;shaderCode, <span class="literal">nullptr</span>);</span><br><span class="line">	<span class="comment">//编译shader</span></span><br><span class="line">	glCompileShader(shader);</span><br><span class="line">	<span class="comment">//处理编译异常的信息</span></span><br><span class="line">	GLint result = GL_TRUE;</span><br><span class="line">	<span class="comment">//获取shader的编译时的状态</span></span><br><span class="line">	glGetShaderiv(shader, GL_COMPILE_STATUS, &amp;result);</span><br><span class="line">	<span class="keyword">if</span> (result == GL_FALSE)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">char</span> <span class="built_in">log</span>[<span class="number">1024</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">		GLsizei logLen = <span class="number">0</span>;</span><br><span class="line">		glGetShaderInfoLog(shader, <span class="number">1024</span>, &amp;logLen, <span class="built_in">log</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Compile shader fail error log：%s\nshader code:\n%s\n"</span>, <span class="built_in">log</span>, shaderCode);</span><br><span class="line">		glDeleteShader(shader);</span><br><span class="line">		shader = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> shader;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//编译顶点着色器</span></span><br><span class="line">GLuint vsShader = CompileShader(GL_VERTEX_SHADER, vsCode);</span><br><span class="line"><span class="keyword">if</span> (vsShader == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//编译片源着色器</span></span><br><span class="line">GLuint fsShader = CompileShader(GL_FRAGMENT_SHADER, fsCode);</span><br><span class="line"><span class="keyword">if</span> (fsShader == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-创建一个GPU-Program用来连接shader。"><a href="#4-创建一个GPU-Program用来连接shader。" class="headerlink" title="4.创建一个GPU Program用来连接shader。"></a>4.创建一个GPU Program用来连接shader。</h3><p>同样地，在utils文件中定义CreateProgram方法。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//utils.cpp</span></span><br><span class="line"><span class="function">GLuint <span class="title">CreateProgram</span><span class="params">(GLuint vsShader, GLuint fsShader)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//创建一个程序</span></span><br><span class="line">	GLuint program = glCreateProgram();</span><br><span class="line">	<span class="comment">//设置顶点着色器</span></span><br><span class="line">	glAttachShader(program, vsShader);</span><br><span class="line">	<span class="comment">//设置片源着色器</span></span><br><span class="line">	glAttachShader(program, fsShader);</span><br><span class="line">	<span class="comment">//链接程序</span></span><br><span class="line">	glLinkProgram(program);</span><br><span class="line">	<span class="comment">//释放shader</span></span><br><span class="line">	glDetachShader(program, vsShader);</span><br><span class="line">	glDetachShader(program, fsShader);</span><br><span class="line">	<span class="comment">//检查gpu程序的链接状态</span></span><br><span class="line">	GLint result = GL_TRUE;</span><br><span class="line">	glGetProgramiv(program, GL_LINK_STATUS, &amp;result);</span><br><span class="line">	<span class="keyword">if</span> (result == GL_FALSE)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">char</span> <span class="built_in">log</span>[<span class="number">1024</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">		GLsizei logLen = <span class="number">0</span>;</span><br><span class="line">		glGetProgramInfoLog(program, <span class="number">1024</span>, &amp;logLen, <span class="built_in">log</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Create gpu program fail,link error : %s\n"</span>, <span class="built_in">log</span>);</span><br><span class="line">		program = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> program;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建gpu程序</span></span><br><span class="line">mGPUProgram = CreateProgram(vsShader, fsShader);</span><br><span class="line"><span class="comment">//删除shader</span></span><br><span class="line">glDeleteShader(vsShader);</span><br><span class="line">glDeleteShader(fsShader);</span><br></pre></td></tr></table></figure>
+<h3 id="5-记录shader中的属性位置。"><a href="#5-记录shader中的属性位置。" class="headerlink" title="5.记录shader中的属性位置。"></a>5.记录shader中的属性位置。</h3><p>观察vs和fs shader可以知道，我们需要为shader传递3个变量分别是attribute变量position和texcoord，以及uniform变量U_Texture。attribute和uniform以及varying关键字的差别后续再说，先了解attribute和uniform变量是如何传值的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mPositionLocation = glGetAttribLocation(mGPUProgram, <span class="string">"position"</span>);</span><br><span class="line">mTexcoordLocation = glGetAttribLocation(mGPUProgram, <span class="string">"texcoord"</span>);</span><br><span class="line">mTextureLocation = glGetUniformLocation(mGPUProgram, <span class="string">"U_Texture"</span>);</span><br></pre></td></tr></table></figure>
+<p>这里需要引入一个插槽的概念来理解变量的传参过程，同一个GPU Program里面会为shader内部定义的attribute和uniform变量分别加上序号（从0开始自增）。不出意外的话属性position获取到的编号应该是0，texcoord获取到的是1，而uniform编号是不会和attribute的相互干扰的，所以U_Texture获取到的编号是0。</p>
+<h3 id="6-绘制的时候启用Program，根据记录的shader属性位置传入shader需要的属性信息。"><a href="#6-绘制的时候启用Program，根据记录的shader属性位置传入shader需要的属性信息。" class="headerlink" title="6.绘制的时候启用Program，根据记录的shader属性位置传入shader需要的属性信息。"></a>6.绘制的时候启用Program，根据记录的shader属性位置传入shader需要的属性信息。</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//绑定vbo</span></span><br><span class="line">glBindBuffer(GL_ARRAY_BUFFER, mVBO);</span><br><span class="line"></span><br><span class="line"><span class="comment">//绑定Program</span></span><br><span class="line">glUseProgram(mGPUProgram);</span><br><span class="line"><span class="comment">//绑定纹理</span></span><br><span class="line">glBindTexture(GL_TEXTURE_2D, mTexture);</span><br><span class="line"><span class="comment">//激活该纹理</span></span><br><span class="line">glActiveTexture(mTexture);</span><br><span class="line"><span class="comment">//传递uniform属性，#1属性插槽位置，#2纹理索引</span></span><br><span class="line">glUniform1f(mTextureLocation, mTexture);</span><br><span class="line"></span><br><span class="line"><span class="comment">//给attribute变量传值时需要先激活该槽位，再通过指针指定vbo上的数据为其赋值</span></span><br><span class="line"><span class="comment">//激活position这个属性槽位</span></span><br><span class="line">glEnableVertexAttribArray(mPositionLocation);</span><br><span class="line">glVertexAttribPointer(mPositionLocation,<span class="comment">//需要赋值的槽位</span></span><br><span class="line">                      <span class="number">3</span>,<span class="comment">//每个顶点有几个float变量</span></span><br><span class="line">                      GL_FLOAT,<span class="comment">//数值类型为float</span></span><br><span class="line">                      GL_FALSE,<span class="comment">//不需要归一化float值，GL_TRUE指的数据会变换到（0-1）</span></span><br><span class="line">                      <span class="keyword">sizeof</span>(<span class="keyword">float</span>) * <span class="number">5</span>, <span class="comment">//每个顶点间的偏移量</span></span><br><span class="line">                      <span class="number">0</span>);<span class="comment">//起始变量的地址</span></span><br><span class="line"><span class="comment">//激活texcoord这个属性槽位</span></span><br><span class="line">glEnableVertexAttribArray(mTexcoordLocation);</span><br><span class="line">glVertexAttribPointer(mTexcoordLocation, <span class="comment">//需要赋值的槽位</span></span><br><span class="line">                      <span class="number">2</span>,<span class="comment">//每个顶点有几个float变量</span></span><br><span class="line">                      GL_FLOAT,<span class="comment">//数值类型为float</span></span><br><span class="line">                      GL_FALSE,<span class="comment">//不需要归一化float值，GL_TRUE指的数据会变换到（0-1）</span></span><br><span class="line">                      <span class="keyword">sizeof</span>(<span class="keyword">float</span>) * <span class="number">5</span>,<span class="comment">//每个顶点间的偏移量</span></span><br><span class="line">                      (<span class="keyword">void</span>*)(<span class="keyword">sizeof</span>(<span class="keyword">float</span>) * <span class="number">3</span>));<span class="comment">//起始变量的地址</span></span><br></pre></td></tr></table></figure>
+<p>完整代码实现如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//FirstShaderScene.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"BaseScene.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FirstShaderScene</span> :</span></span><br><span class="line">	<span class="keyword">public</span> BaseScene</span><br><span class="line">&#123;</span><br><span class="line">	GLuint			mVBO;</span><br><span class="line">	GLuint			mTexture;</span><br><span class="line">	GLuint			mGPUProgram;</span><br><span class="line">	GLuint			mPositionLocation;</span><br><span class="line">	GLuint			mTexcoordLocation;</span><br><span class="line">	GLuint			mTextureLocation;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	FirstShaderScene();</span><br><span class="line">	~FirstShaderScene();</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//FirstShaderScene.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"FirstShaderScene.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FirstShaderScene::FirstShaderScene()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FirstShaderScene::~FirstShaderScene()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> FirstShaderScene::Init()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//顶点数据左侧顶点的三个是坐标，右侧是对应的纹理坐标</span></span><br><span class="line">	<span class="keyword">float</span> data[] = &#123;</span><br><span class="line">		<span class="number">-0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>,	<span class="number">0.0f</span>,<span class="number">0.0f</span>,</span><br><span class="line">		<span class="number">0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>,		<span class="number">1.0f</span>,<span class="number">0.0f</span>,</span><br><span class="line">		<span class="number">0.0f</span>, <span class="number">0.5f</span>, <span class="number">-1.0f</span>,		<span class="number">0.5f</span>,<span class="number">1.0f</span></span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="comment">//创建一个vbo</span></span><br><span class="line">	glGenBuffers(<span class="number">1</span>, &amp;mVBO);</span><br><span class="line">	<span class="comment">//绑定vbo</span></span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, mVBO);</span><br><span class="line">	<span class="comment">//上传数据到GPU</span></span><br><span class="line">	glBufferData(GL_ARRAY_BUFFER,	<span class="comment">//顶点buffer</span></span><br><span class="line">		<span class="keyword">sizeof</span>(data),				<span class="comment">//数据的大小</span></span><br><span class="line">		data,						<span class="comment">//数据数组</span></span><br><span class="line">		GL_STATIC_DRAW);			<span class="comment">//绘制类型，不需要更改用静态就可以</span></span><br><span class="line"></span><br><span class="line">									<span class="comment">//取消绑定vbo</span></span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//初始化一张纹理</span></span><br><span class="line">	mTexture = CreateTexture2DFromBMP(<span class="string">"Res/test.bmp"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//读取shader的源代码</span></span><br><span class="line">	<span class="keyword">int</span> nFileSize = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>* vsCode = (<span class="keyword">char</span>*)LoadFileContent(<span class="string">"Res/Shader/first.vs"</span>, nFileSize);</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>* fsCode = (<span class="keyword">char</span>*)LoadFileContent(<span class="string">"Res/Shader/first.fs"</span>, nFileSize);</span><br><span class="line">	<span class="comment">//编译顶点着色器</span></span><br><span class="line">	GLuint vsShader = CompileShader(GL_VERTEX_SHADER, vsCode);</span><br><span class="line">	<span class="keyword">if</span> (vsShader == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//编译片源着色器</span></span><br><span class="line">	GLuint fsShader = CompileShader(GL_FRAGMENT_SHADER, fsCode);</span><br><span class="line">	<span class="keyword">if</span> (fsShader == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//创建gpu程序</span></span><br><span class="line">	mGPUProgram = CreateProgram(vsShader, fsShader);</span><br><span class="line">	<span class="comment">//删除shader</span></span><br><span class="line">	glDeleteShader(vsShader);</span><br><span class="line">	glDeleteShader(fsShader);</span><br><span class="line"></span><br><span class="line">	mPositionLocation = glGetAttribLocation(mGPUProgram, <span class="string">"position"</span>);</span><br><span class="line">	mTexcoordLocation = glGetAttribLocation(mGPUProgram, <span class="string">"texcoord"</span>);</span><br><span class="line">	mTextureLocation = glGetUniformLocation(mGPUProgram, <span class="string">"U_Texture"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> FirstShaderScene::Draw()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//清理背景颜色为黑色</span></span><br><span class="line">	glClearColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">	<span class="comment">//清理颜色缓冲区和深度缓冲区</span></span><br><span class="line">	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">	<span class="comment">//开启纹理</span></span><br><span class="line">	glEnable(GL_TEXTURE_2D);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//绑定vbo</span></span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, mVBO);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//绑定Program</span></span><br><span class="line">	glUseProgram(mGPUProgram);</span><br><span class="line">	<span class="comment">//绑定纹理</span></span><br><span class="line">	glBindTexture(GL_TEXTURE_2D, mTexture);</span><br><span class="line">	<span class="comment">//激活该纹理</span></span><br><span class="line">	glActiveTexture(mTexture);</span><br><span class="line">	<span class="comment">//传递uniform属性，#1属性插槽位置，#2纹理索引</span></span><br><span class="line">	glUniform1f(mTextureLocation, mTexture);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//给attribute变量传值时需要先激活该槽位，再通过指针指定vbo上的数据为其赋值</span></span><br><span class="line">	<span class="comment">//激活position这个属性槽位</span></span><br><span class="line">	glEnableVertexAttribArray(mPositionLocation);</span><br><span class="line">	glVertexAttribPointer(mPositionLocation,<span class="comment">//需要赋值的槽位</span></span><br><span class="line">		<span class="number">3</span>,<span class="comment">//每个顶点有几个float变量</span></span><br><span class="line">		GL_FLOAT,<span class="comment">//数值类型为float</span></span><br><span class="line">		GL_FALSE,<span class="comment">//不需要归一化float值，GL_TRUE指的数据会变换到（0-1）</span></span><br><span class="line">		<span class="keyword">sizeof</span>(<span class="keyword">float</span>) * <span class="number">5</span>, <span class="comment">//每个顶点间的偏移量</span></span><br><span class="line">		<span class="number">0</span>);<span class="comment">//起始变量的地址</span></span><br><span class="line">	<span class="comment">//激活texcoord这个属性槽位</span></span><br><span class="line">	glEnableVertexAttribArray(mTexcoordLocation);</span><br><span class="line">	glVertexAttribPointer(mTexcoordLocation, <span class="comment">//需要赋值的槽位</span></span><br><span class="line">		<span class="number">2</span>,<span class="comment">//每个顶点有几个float变量</span></span><br><span class="line">		GL_FLOAT,<span class="comment">//数值类型为float</span></span><br><span class="line">		GL_FALSE,<span class="comment">//不需要归一化float值，GL_TRUE指的数据会变换到（0-1）</span></span><br><span class="line">		<span class="keyword">sizeof</span>(<span class="keyword">float</span>) * <span class="number">5</span>,<span class="comment">//每个顶点间的偏移量</span></span><br><span class="line">		(<span class="keyword">void</span>*)(<span class="keyword">sizeof</span>(<span class="keyword">float</span>) * <span class="number">3</span>));<span class="comment">//起始变量的地址</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//绑定vbo</span></span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, <span class="number">0</span>);</span><br><span class="line">	<span class="comment">//绘制一个三角形,起始顶点为0,绘制3个顶点</span></span><br><span class="line">	glDrawArrays(GL_TRIANGLES, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">	<span class="comment">//取消vbo的绑定</span></span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//解除纹理绑定</span></span><br><span class="line">	glBindTexture(GL_TEXTURE_2D, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在SceneManager.cpp中修改跳转场景为FirstShaderScene</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//SceneManager.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"FirstShaderScene.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> SceneManager::EnterScene()</span><br><span class="line">&#123;</span><br><span class="line">	mCurrentScene = <span class="keyword">new</span> FirstShaderScene();</span><br><span class="line">	mCurrentScene-&gt;Init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了能及时发现错误，可以通过设置工程配置将控制台显示出来，以便方便观察异常输出。【属性】–&gt;【生成事件】–&gt;【生成后事件】，在【命令行】中填入editbin   /SUBSYSTEM:CONSOLE $(OutDir)$(ProjectName).exe即可。</p>
+<p>没错，要是实现没问题的话，还是暗中观察。</p>
+<p><img src="/2018/01/27/（九）使用Shader绘制三角形/res.jpg" alt="res"></p>
+
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Eamon</a>
+            
+        </div>
+        <div>
+            
+        </div>  
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/01/28/（十）attribute、uniform和varying的区别/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
+    
+    
+        <a href="/2018/01/21/（八）使用VBO绘制三角形/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNTE0OS8xMTY4NA==">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">    
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget notification">
+        <h3 class="title">网站公告</h3>
+        <div>
+            <p>Eamon_Chen@126.com<br/>
+</p>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget">
+      <h3 class="title">社交</h3> 
+        <div class="content social">
+            
+	            <a href="//eamon_chen@126.com" rel="external nofollow" title="邮箱" target="_blank">
+			    	<i class="envelope-o fa fa-envelope-o"></i>
+			    </a>
+            
+        </div>
+    </div>
+
+
+        
+        
+    <div class="widget">
+        <h3 class="title">分类</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/"><i class="fa" aria-hidden="true">OpenGL</i></a><span class="category-list-count">14</span></li></ul>
+    </div>
+
+
+        
+        
+    <div class="widget">
+      <h3 class="title">归档</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">三月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/"><i class="fa" aria-hidden="true">二月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/"><i class="fa" aria-hidden="true">一月 2018</i></a><span class="archive-list-count">10</span></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">标签云</h3>
+    <div class="content tag-cloud">
+        <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a>
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>

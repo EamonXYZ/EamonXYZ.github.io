@@ -1,0 +1,347 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Hexo">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://eamon.xyz">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>（十三）环境光 | Hexo</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css?rev=3.3.4">
+<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1273222950 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273222950%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://7xpw2b.com1.z0.glb.clouddn.com/hexo-sinppet/img/banner2.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="">
+            <img src="/img/avatar.jpg" alt="logo头像">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> Another is always ready. </h2>
+             
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/Unity/"><i class="fa fa-fw "></i>Unity</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/OpenGL/"><i class="fa fa-fw "></i>OpenGL</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="（十三）环境光">
+            
+	            （十三）环境光
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/03/03</span>
+    </span>
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>在现实世界中，没有光我们将看不见任何东西，你所看见的物体或者是反射了光源的光或者是本身就能自发光。环境光是所有光照模型中最简单的一种，然而在实时渲染中我们也不能完全复现现实生活中完全靠物体反射形成的环境光。因此我们需要模拟计算，得到一个近似的效果。环境光的定义：是一直微弱无方向的光。那么可以得出近似的光照表达式：<br>$$<br>Ambient = AmbientColor(环境光颜色) * Intensity(环境光的强度)<br>$$<br>新建ambient.vs和ambient.fs，在模型上实现接收环境光，为了方便看效果将模型贴图暂时去掉了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ambient.vs</span></span><br><span class="line">attribute vec4 position;<span class="comment">//从外部传过来的顶点坐标</span></span><br><span class="line">attribute vec2 texcoord;<span class="comment">//从外部传过来的纹理坐标</span></span><br><span class="line">attribute vec4 normal;<span class="comment">//从外部传过来的法线</span></span><br><span class="line"></span><br><span class="line">uniform mat4 modelMatrix;<span class="comment">//从外部传过来的全局变量模型矩阵</span></span><br><span class="line">uniform mat4 viewMatrix;<span class="comment">//从外部传过来的全局变量视矩阵</span></span><br><span class="line">uniform mat4 projectionMatrix;<span class="comment">//从外部传过来的全局变量投影矩阵</span></span><br><span class="line">uniform mat4 IT_ModelMatrix;<span class="comment">//从外部传过来的全局变量法线模型矩阵矩阵</span></span><br><span class="line"></span><br><span class="line">varying vec2 V_Texcoord;<span class="comment">//输出到片元的属性，顶点坐标</span></span><br><span class="line">varying vec4 V_WorldNormal;<span class="comment">//输出到片元的属性，世界空间的法线</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//gl_Position是用来传递顶点坐标的 裁剪空间的坐标 = MVP * position</span></span><br><span class="line">	gl_Position= projectionMatrix * viewMatrix * modelMatrix * position;</span><br><span class="line">	<span class="comment">//赋值给varying变量，这个值可以在fs中获得到</span></span><br><span class="line">	V_Texcoord = texcoord;</span><br><span class="line">	<span class="comment">//模型空间法线转换到世界空间法线</span></span><br><span class="line">	V_WorldNormal = IT_ModelMatrix * normal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ambient.fs</span></span><br><span class="line"><span class="comment">//兼容OpenGL ES 定义数值精度为mediump</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GL_ES</span></span><br><span class="line">precision mediump <span class="keyword">float</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">uniform vec4 U_AmbientColor;<span class="comment">//环境光颜色</span></span><br><span class="line">uniform vec4 U_AmbientIntensity;<span class="comment">//环境光强度</span></span><br><span class="line">uniform sampler2D U_Texture;<span class="comment">//从外部传过来的纹理采样器</span></span><br><span class="line">varying vec2 V_Texcoord;	<span class="comment">//接收vs传过来的值，纹理坐标</span></span><br><span class="line">varying vec4 V_WorldNormal;<span class="comment">//接收vs传过来的值，世界空间的法线</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//环境光照计算</span></span><br><span class="line">	vec4 ambient = U_AmbientColor * U_AmbientIntensity;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//内置变量 设置最后该像素的颜色值</span></span><br><span class="line">	gl_FragColor= ambient;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在DrawModelScene.cpp中切换model的Shader</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DrawModelScene.cpp</span></span><br><span class="line"><span class="keyword">void</span> DrawModelScene::Init()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function">vec3 <span class="title">eysPos</span><span class="params">(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">5.0f</span>)</span></span>;<span class="comment">//眼睛的位置</span></span><br><span class="line">	<span class="function">vec3 <span class="title">target</span><span class="params">(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>)</span></span>;<span class="comment">//目标位置</span></span><br><span class="line">	<span class="function">vec3 <span class="title">upDir</span><span class="params">(<span class="number">0.0f</span>, <span class="number">1.0f</span>, <span class="number">0.0f</span>)</span></span>;<span class="comment">//上方坐标</span></span><br><span class="line">	<span class="comment">//计算出视矩阵</span></span><br><span class="line">	mViewMatrix = glm::lookAt(eysPos, target, upDir);</span><br><span class="line">	<span class="comment">//计算出投影矩阵</span></span><br><span class="line">	mProjectionMatrix = glm::perspective(<span class="number">50.0f</span>, <span class="number">800.0f</span> / <span class="number">600.0f</span>, <span class="number">0.1f</span>, <span class="number">1000.0f</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//初始化模型对象</span></span><br><span class="line">	mModel = <span class="keyword">new</span> Model;</span><br><span class="line">	mModel-&gt;Init(<span class="string">"Res/Sphere.obj"</span>,<span class="string">"Res/Shader/ambient.vs"</span>,<span class="string">"Res/Shader/ambient.fs"</span>);</span><br><span class="line">	mModel-&gt;SetTextureWithPath(<span class="string">"Res/earth.bmp"</span>);</span><br><span class="line">	mModel-&gt;SetPosition(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">-1.0f</span>);</span><br><span class="line">	mModel-&gt;mShader-&gt;SetUniformVec4(<span class="string">"U_AmbientColor"</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">	mModel-&gt;mShader-&gt;SetUniformVec4(<span class="string">"U_AmbientIntensity"</span>, <span class="number">0.1f</span>, <span class="number">0.1f</span>, <span class="number">0.1f</span>, <span class="number">1.0f</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行之后可以看到模型只受环境光的效果。</p>
+<p><img src="/2018/03/03/（十三）环境光/res.png" alt="res"></p>
+
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Eamon</a>
+            
+        </div>
+        <div>
+            
+        </div>  
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/03/10/（十四）漫反射光/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
+    
+    
+        <a href="/2018/02/10/（十二）封装Model类/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNTE0OS8xMTY4NA==">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">    
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget notification">
+        <h3 class="title">网站公告</h3>
+        <div>
+            <p>Eamon_Chen@126.com<br/>
+</p>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget">
+      <h3 class="title">社交</h3> 
+        <div class="content social">
+            
+	            <a href="//eamon_chen@126.com" rel="external nofollow" title="邮箱" target="_blank">
+			    	<i class="envelope-o fa fa-envelope-o"></i>
+			    </a>
+            
+        </div>
+    </div>
+
+
+        
+        
+    <div class="widget">
+        <h3 class="title">分类</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/"><i class="fa" aria-hidden="true">OpenGL</i></a><span class="category-list-count">14</span></li></ul>
+    </div>
+
+
+        
+        
+    <div class="widget">
+      <h3 class="title">归档</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">三月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/"><i class="fa" aria-hidden="true">二月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/"><i class="fa" aria-hidden="true">一月 2018</i></a><span class="archive-list-count">10</span></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">标签云</h3>
+    <div class="content tag-cloud">
+        <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a>
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>

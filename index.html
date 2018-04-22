@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="">
+<html lang="zh-CN">
 <head>
     <!--Setting-->
     <meta charset="UTF-8">
@@ -47,6 +47,12 @@
 
 
     
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1273222950 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273222950%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
 
 
 
@@ -74,7 +80,7 @@
         <div class="branding">
         	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
             
-                 <img src="/img/branding.png" alt="Snippet 博客主题">  
+                <h2> Another is always ready. </h2>
              
     	</div>
     </div>
@@ -91,19 +97,13 @@
                 <div class="collapse navbar-collapse" id="main-menu">
                     <ul class="menu">
                         
-                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首頁</a>
+                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首页</a>
                             </li>
                         
-                            <li role="presentation"><a href="/categories/前端/"><i class="fa fa-fw "></i>前端</a>
+                            <li role="presentation"><a href="/categories/Unity/"><i class="fa fa-fw "></i>Unity</a>
                             </li>
                         
-                            <li role="presentation"><a href="/categories/后端/"><i class="fa fa-fw "></i>后端</a>
-                            </li>
-                        
-                            <li role="presentation"><a href="/categories/工具/"><i class="fa fa-fw "></i>工具</a>
-                            </li>
-                        
-                            <li role="presentation"><a href="/categories/资源/"><i class="fa fa-fw "></i>资源</a>
+                            <li role="presentation"><a href="/categories/OpenGL/"><i class="fa fa-fw "></i>OpenGL</a>
                             </li>
                         
                     </ul>
@@ -125,20 +125,27 @@
 
 <article class="post">
     
+        <div class="post-media">
+            <a href="/2018/03/10/（十四）漫反射光/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/2018/03/10/（十四）漫反射光/res.jpg"   alt="（十四）漫反射光"> 
+            </a>
+        </div>
+    
     <div class="post-content">
         <div class="post-head home-post-head">
             <h1 class="post-title">
-                <a href="/2018/03/23/hello-hexo/">hello hexo</a>
+                <a href="/2018/03/10/（十四）漫反射光/">（十四）漫反射光</a>
             </h1>
             <div class="post-meta">  &bull;
                 <time class="post-date" datetime="" title="">
-                    2018年03月23日
+                    2018年03月10日
                 </time>
             </div>
         </div>
         <p class="brief">
             
-                
+                漫反射光是根据物体表面的法线和入射光的方向进行计算得出光照强度，光照如下图所示：
+当L（光照方向）和N（法线方向）重合时光照强度将会达到最大，夹角越大则强度越小。那么我们可以用角度的余弦值来描述光照的强度，那么就能得出光照强度的表达式...
             
         </p> 
     </div>
@@ -149,8 +156,8 @@
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <a href="/categories/ ">
-             
+        <a href="/categories/OpenGL">
+            OpenGL
         </a>
     </span>
     
@@ -159,7 +166,9 @@
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-                 
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
             
         </span>
     </span>
@@ -167,14 +176,212 @@
     
     <span class="fa-wrap">
         <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2018/03/23</span>
+        <span class="date-meta">2018/03/10</span>
     </span>
 </div>
 
         </div>
 
         <div class="post-permalink"> 
-            <a href="/2018/03/23/hello-hexo/" class="btn btn-default">阅读全文</a>
+            <a href="/2018/03/10/（十四）漫反射光/" class="btn btn-default">阅读全文</a>
+        </div>
+    </footer>
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a href="/2018/03/03/（十三）环境光/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/2018/03/03/（十三）环境光/res.png"   alt="（十三）环境光"> 
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2018/03/03/（十三）环境光/">（十三）环境光</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2018年03月03日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                在现实世界中，没有光我们将看不见任何东西，你所看见的物体或者是反射了光源的光或者是本身就能自发光。环境光是所有光照模型中最简单的一种，然而在实时渲染中我们也不能完全复现现实生活中完全靠物体反射形成的环境光。因此我们需要模拟计算，得到一...
+            
+        </p> 
+    </div>
+    <footer class="post-footer clearfix">
+        <div class="pull-left tag-list">
+            <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/03/03</span>
+    </span>
+</div>
+
+        </div>
+
+        <div class="post-permalink"> 
+            <a href="/2018/03/03/（十三）环境光/" class="btn btn-default">阅读全文</a>
+        </div>
+    </footer>
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a href="/2018/02/10/（十二）封装Model类/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/2018/02/10/（十二）封装Model类/res.jpg"   alt="（十二）封装Model类"> 
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2018/02/10/（十二）封装Model类/">（十二）封装Model类</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2018年02月10日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                绘制3d模型跟2d的Sprite原理其实都是一样的，区别在于模型一般都是从磁盘读取解析出来，而Sprite代码写顶点就可以了；作为3d的元素模型还是有些不一样的功能，如透视、动作、光照计算等。
+首先需要将模型文件加载到内存，然后按照顶...
+            
+        </p> 
+    </div>
+    <footer class="post-footer clearfix">
+        <div class="pull-left tag-list">
+            <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/02/10</span>
+    </span>
+</div>
+
+        </div>
+
+        <div class="post-permalink"> 
+            <a href="/2018/02/10/（十二）封装Model类/" class="btn btn-default">阅读全文</a>
+        </div>
+    </footer>
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a href="/2018/02/03/（十一）封装Sprite类/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/2018/02/03/（十一）封装Sprite类/res.jpg"   alt="（十一）封装Sprite类"> 
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2018/02/03/（十一）封装Sprite类/">（十一）封装Sprite类</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2018年02月03日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                一直在画三角形，总会觉得看不到实用性，接下来自己动手用之前用过的GL API封装一个Sprite类。
+在此之前我们先封装两个工具类，Shader和VertexBuffer类，为以后实现其他功能提供便利性。
+首先引用一个数学库方便我们的...
+            
+        </p> 
+    </div>
+    <footer class="post-footer clearfix">
+        <div class="pull-left tag-list">
+            <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/02/03</span>
+    </span>
+</div>
+
+        </div>
+
+        <div class="post-permalink"> 
+            <a href="/2018/02/03/（十一）封装Sprite类/" class="btn btn-default">阅读全文</a>
         </div>
     </footer>
 </article>
@@ -185,17 +392,18 @@
     <div class="post-content">
         <div class="post-head home-post-head">
             <h1 class="post-title">
-                <a href="/2018/03/23/hello-world/">Hello World</a>
+                <a href="/2018/01/28/（十）attribute、uniform和varying的区别/">（十）attribute、uniform和varying的区别</a>
             </h1>
             <div class="post-meta">  &bull;
                 <time class="post-date" datetime="" title="">
-                    2018年03月23日
+                    2018年01月28日
                 </time>
             </div>
         </div>
         <p class="brief">
             
-                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using ...
+                初次接触这三种变量类型的时候肯定有点疑惑，特地为此小结一下。
+1.attribute变量attribute变量是从shader外部传入的变量，只能在Vertex Shader中使用它。在不同的gl版本支持的attribute变量的数量...
             
         </p> 
     </div>
@@ -206,8 +414,8 @@
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <a href="/categories/ ">
-             
+        <a href="/categories/OpenGL">
+            OpenGL
         </a>
     </span>
     
@@ -216,7 +424,9 @@
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-                 
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
             
         </span>
     </span>
@@ -224,20 +434,350 @@
     
     <span class="fa-wrap">
         <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2018/03/23</span>
+        <span class="date-meta">2018/01/28</span>
     </span>
 </div>
 
         </div>
 
         <div class="post-permalink"> 
-            <a href="/2018/03/23/hello-world/" class="btn btn-default">阅读全文</a>
+            <a href="/2018/01/28/（十）attribute、uniform和varying的区别/" class="btn btn-default">阅读全文</a>
+        </div>
+    </footer>
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a href="/2018/01/27/（九）使用Shader绘制三角形/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/2018/01/27/（九）使用Shader绘制三角形/res.jpg"   alt="（九）使用Shader绘制三角形"> 
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2018/01/27/（九）使用Shader绘制三角形/">（九）使用Shader绘制三角形</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2018年01月27日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                学会用使用可编程管线绘制图形可以算是OpenGL入门的一个里程碑，是面向GPU编程的第一步。
+在学习shader之前可以先大致看下OpenGL的渲染管线，在图中蓝色字部分就是可编程管线中三个重要的shader，其中Vertex Sha...
+            
+        </p> 
+    </div>
+    <footer class="post-footer clearfix">
+        <div class="pull-left tag-list">
+            <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/27</span>
+    </span>
+</div>
+
+        </div>
+
+        <div class="post-permalink"> 
+            <a href="/2018/01/27/（九）使用Shader绘制三角形/" class="btn btn-default">阅读全文</a>
+        </div>
+    </footer>
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a href="/2018/01/21/（八）使用VBO绘制三角形/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/2018/01/21/（八）使用VBO绘制三角形/res.jpg"   alt="（八）使用VBO绘制三角形"> 
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2018/01/21/（八）使用VBO绘制三角形/">（八）使用VBO绘制三角形</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2018年01月21日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                在绘制第一个三角形之后发现一个问题，每次调用Draw函数的时候，CPU都会向GPU传输顶点坐标、纹理坐标、颜色等信息。在不改变的三角形的数据的前提下，这些传输开销都是在浪费性能。好在OpenGL在2.1版本之后用一个新特性可以避免这种...
+            
+        </p> 
+    </div>
+    <footer class="post-footer clearfix">
+        <div class="pull-left tag-list">
+            <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/21</span>
+    </span>
+</div>
+
+        </div>
+
+        <div class="post-permalink"> 
+            <a href="/2018/01/21/（八）使用VBO绘制三角形/" class="btn btn-default">阅读全文</a>
+        </div>
+    </footer>
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a href="/2018/01/20/（七）抽象出场景管理器/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/2018/01/20/（七）抽象出场景管理器/res.jpg"   alt="(七)抽象出场景管理器"> 
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2018/01/20/（七）抽象出场景管理器/">(七)抽象出场景管理器</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2018年01月20日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                为了方便做代码展示和遵循开闭原则，将之前的代码做一些封装。实现一个场景管理类和场景基类，新展示的代码可以继承场景基类，然后在场景管理器内做切换就可以了。
+新建一个BaseScene类作为场景的基类，定义两个抽象方法，Init()和Dr...
+            
+        </p> 
+    </div>
+    <footer class="post-footer clearfix">
+        <div class="pull-left tag-list">
+            <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/20</span>
+    </span>
+</div>
+
+        </div>
+
+        <div class="post-permalink"> 
+            <a href="/2018/01/20/（七）抽象出场景管理器/" class="btn btn-default">阅读全文</a>
+        </div>
+    </footer>
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
+            <a href="/2018/01/07/（六）为三角形贴图/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="/2018/01/07/（六）为三角形贴图/res.jpg"   alt="（六）为三角形贴图"> 
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2018/01/07/（六）为三角形贴图/">（六）为三角形贴图</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2018年01月07日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                创建GLTexture需要在Utils.h和Utils.cpp中声明和定义一个获取创建GL纹理的函数CreateTexture2D。
+123456//Utils.h#pragma once#include &#34;GlobalGL.h&#34;GL...
+            
+        </p> 
+    </div>
+    <footer class="post-footer clearfix">
+        <div class="pull-left tag-list">
+            <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/07</span>
+    </span>
+</div>
+
+        </div>
+
+        <div class="post-permalink"> 
+            <a href="/2018/01/07/（六）为三角形贴图/" class="btn btn-default">阅读全文</a>
+        </div>
+    </footer>
+</article>
+
+
+<article class="post">
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2018/01/07/（五）解析BMP文件/">（五）解析BMP文件</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2018年01月07日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                BMP文件是Windows操作系统中的标准图像文件格式，它采用位映射存储格式，除了图像深度可选以外，不采用其他任何压缩，所以解析BMP文件也比较简单。
+图像文件头
+1）1-2：(这里的数字代表的是字节，下同）图像文件头。0x4d42=...
+            
+        </p> 
+    </div>
+    <footer class="post-footer clearfix">
+        <div class="pull-left tag-list">
+            <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/07</span>
+    </span>
+</div>
+
+        </div>
+
+        <div class="post-permalink"> 
+            <a href="/2018/01/07/（五）解析BMP文件/" class="btn btn-default">阅读全文</a>
         </div>
     </footer>
 </article>
 
 
 
+
+    <nav class="pagination" role="navigation">
+        <div id="page-nav">
+            <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class='fa fa-angle-right'></i></a>
+        </div>
+    </nav>
 
 
 
@@ -247,13 +787,13 @@
         
         
     <div class="widget">    
-        <h3 class="title">搜尋</h3>
+        <h3 class="title">搜索</h3>
         <div id="search-form">
             <div id="result-mask" class="hide"></div>
             <div class="search-area">
                 
                     <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
-                    <button type="button" class="search-form-submit" id="search-local">站內搜索</button>
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
                 
                 
             </div>
@@ -278,9 +818,7 @@
     <div class="widget notification">
         <h3 class="title">网站公告</h3>
         <div>
-            <p>主题Snippet v1.2.0版本已经上线！欢迎更新~ <br/>
-主题下载：<a href="https://github.com/shenliyang/hexo-theme-snippet" title="fork me" target="_blank">Snippet主题</a> <br/>
-<hr/>接受贡献，包括不限于提交问题与需求，修复代码。欢迎Pull Request<br/>支持主题：<a href="https://github.com/shenliyang/hexo-theme-snippet/stargazers">Star一下</a>
+            <p>Eamon_Chen@126.com<br/>
 </p>
         </div>
     </div>
@@ -291,59 +829,42 @@
       <h3 class="title">社交</h3> 
         <div class="content social">
             
-	            <a href="//github.com/shenliyang" rel="external nofollow" title="Github" target="_blank">
-			    	<i class="git fa fa-git"></i>
-			    </a>
-            
-	            <a href="mailto:snippet@91h5.cc" rel="external nofollow" title="邮箱" target="_blank">
+	            <a href="//eamon_chen@126.com" rel="external nofollow" title="邮箱" target="_blank">
 			    	<i class="envelope-o fa fa-envelope-o"></i>
 			    </a>
             
-	            <a href="/" rel="external nofollow" title="联系QQ" target="_blank">
-			    	<i class="qq fa fa-qq"></i>
-			    </a>
-            
-	            <a href="/" rel="external nofollow" title="微博" target="_blank">
-			    	<i class="weibo fa fa-weibo"></i>
-			    </a>
-            
-	            <a href="/" rel="external nofollow" title="QQ群" target="_blank">
-			    	<i class="users fa fa-users"></i>
-			    </a>
-            
-	            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-			    	<i class="feed fa fa-feed"></i>
-			    </a>
-            
         </div>
     </div>
 
 
         
         
-
-        
-        
     <div class="widget">
-      <h3 class="title">彙整</h3>
-        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">March 2018</i></a><span class="archive-list-count">2</span></li></ul>
+        <h3 class="title">分类</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/"><i class="fa" aria-hidden="true">OpenGL</i></a><span class="category-list-count">14</span></li></ul>
     </div>
 
 
         
         
-
-        
-        
     <div class="widget">
-        <h3 class="title">友鏈</h3>
-        <div class="content friends-link">
-        
-            <a href="http://www.shenliyang.com" class="fa" target="_blank">个人博客</a>
-        
-        </div>
+      <h3 class="title">归档</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">三月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/"><i class="fa" aria-hidden="true">二月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/"><i class="fa" aria-hidden="true">一月 2018</i></a><span class="archive-list-count">10</span></li></ul>
     </div>
 
+
+        
+        
+  <div class="widget">
+    <h3 class="title">标签云</h3>
+    <div class="content tag-cloud">
+        <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a>
+    </div>
+  </div>
+
+
+        
+        
 
         
     </aside>

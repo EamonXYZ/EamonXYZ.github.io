@@ -27,7 +27,7 @@
     <!--Title-->
 
 
-<title>归档 | Hexo</title>
+<title>（二）绘制第一个三角形 | Hexo</title>
 
 
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -115,81 +115,98 @@
     <section class="content-wrap">
         <div class="container">
             <div class="row">
-                <main class="col-md-8 main-content ">
-                    <div id="main">
-  <div id="post-list">
-    <ul class="archives-post-list">
-    	<h1 class="info">年 月</h1>
-        
-          <li class="post-items" _href="/2018/03/10/（十四）漫反射光/">
-            <h3 class="post-item-title">
-            	<a href="/2018/03/10/（十四）漫反射光/"> （十四）漫反射光 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/03/03/（十三）环境光/">
-            <h3 class="post-item-title">
-            	<a href="/2018/03/03/（十三）环境光/"> （十三）环境光 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/02/10/（十二）封装Model类/">
-            <h3 class="post-item-title">
-            	<a href="/2018/02/10/（十二）封装Model类/"> （十二）封装Model类 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/02/03/（十一）封装Sprite类/">
-            <h3 class="post-item-title">
-            	<a href="/2018/02/03/（十一）封装Sprite类/"> （十一）封装Sprite类 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/28/（十）attribute、uniform和varying的区别/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/28/（十）attribute、uniform和varying的区别/"> （十）attribute、uniform和varying的区别 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/27/（九）使用Shader绘制三角形/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/27/（九）使用Shader绘制三角形/"> （九）使用Shader绘制三角形 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/21/（八）使用VBO绘制三角形/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/21/（八）使用VBO绘制三角形/"> （八）使用VBO绘制三角形 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/20/（七）抽象出场景管理器/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/20/（七）抽象出场景管理器/"> (七)抽象出场景管理器 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/07/（六）为三角形贴图/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/07/（六）为三角形贴图/"> （六）为三角形贴图 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/07/（五）解析BMP文件/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/07/（五）解析BMP文件/"> （五）解析BMP文件 </a>
-            </h3>  
-          </li>
-        
-    </ul>
-  </div>
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="（二）绘制第一个三角形">
+            
+	            （二）绘制第一个三角形
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/06</span>
+    </span>
 </div>
 
-    <nav class="pagination" role="navigation">
-        <div id="page-nav">
-            <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class='fa fa-angle-right'></i></a>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>在搭建好OpenGL环境前提下使用glBegin()和glEnd()绘制一个三角形，实现main.cpp文件中的Draw()方法。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Draw</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//清理颜色缓冲区和深度缓冲区</span></span><br><span class="line">	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">    <span class="comment">//清理背景颜色为黑色</span></span><br><span class="line">	glClearColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">	<span class="comment">//绘制三角形的指令</span></span><br><span class="line">	glBegin(GL_TRIANGLES);</span><br><span class="line">	<span class="comment">//顶点按逆时针的方式输入</span></span><br><span class="line">	glVertex3f(<span class="number">-0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>); <span class="comment">//第一个顶点 原点左下角</span></span><br><span class="line">	glVertex3f(<span class="number">0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>);	<span class="comment">//第二个顶点 原点右下角</span></span><br><span class="line">	glVertex3f(<span class="number">0.0f</span>, <span class="number">0.5f</span>, <span class="number">-1.0f</span>);	<span class="comment">//第三个顶点 原点正上方</span></span><br><span class="line">	glEnd();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果应该是一个白色的三角形，接下来给这三个顶点都设置成红绿蓝三种颜色。</p>
+<p>glColor4ub()方法能为顶点设置颜色，因为GL是状态切换的机制，所以在为顶点颜色赋值的过程好比一直在切换画笔。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Draw</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//清理颜色缓冲区和深度缓冲区</span></span><br><span class="line">	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">	<span class="comment">//清理背景颜色为黑色</span></span><br><span class="line">	glClearColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">	<span class="comment">//绘制三角形的指令</span></span><br><span class="line">	glBegin(GL_TRIANGLES);</span><br><span class="line">	<span class="comment">//顶点按逆时针的方式输入</span></span><br><span class="line">	glColor4ub(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">	glVertex3f(<span class="number">-0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>); <span class="comment">//第一个顶点 原点左下角</span></span><br><span class="line">	glColor4ub(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">	glVertex3f(<span class="number">0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>);	<span class="comment">//第二个顶点 原点右下角</span></span><br><span class="line">	glColor4ub(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>);</span><br><span class="line">	glVertex3f(<span class="number">0.0f</span>, <span class="number">0.5f</span>, <span class="number">-1.0f</span>);	<span class="comment">//第三个顶点 原点正上方</span></span><br><span class="line">	glEnd();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/01/06/（二）绘制第一个三角形/color.jpg" alt="olo"></p>
+
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Eamon</a>
+            
         </div>
-    </nav>
+        <div>
+            
+        </div>  
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/01/06/（三）基本图元的介绍/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
+    
+    
+        <a href="/2018/01/05/（一）OpenGL环境搭建/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNTE0OS8xMTY4NA==">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
 
 
 

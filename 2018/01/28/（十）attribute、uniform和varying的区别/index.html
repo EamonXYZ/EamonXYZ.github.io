@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="">
+<html lang="zh-CN">
 <head>
     <!--Setting-->
     <meta charset="UTF-8">
@@ -27,7 +27,7 @@
     <!--Title-->
 
 
-<title>Hello World | Hexo</title>
+<title>（十）attribute、uniform和varying的区别 | Hexo</title>
 
 
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -47,6 +47,12 @@
 
 
     
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1273222950 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273222950%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
 
 
 
@@ -74,7 +80,7 @@
         <div class="branding">
         	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
             
-                 <img src="/img/branding.png" alt="Snippet 博客主题">  
+                <h2> Another is always ready. </h2>
              
     	</div>
     </div>
@@ -91,19 +97,13 @@
                 <div class="collapse navbar-collapse" id="main-menu">
                     <ul class="menu">
                         
-                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首頁</a>
+                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首页</a>
                             </li>
                         
-                            <li role="presentation"><a href="/categories/前端/"><i class="fa fa-fw "></i>前端</a>
+                            <li role="presentation"><a href="/categories/Unity/"><i class="fa fa-fw "></i>Unity</a>
                             </li>
                         
-                            <li role="presentation"><a href="/categories/后端/"><i class="fa fa-fw "></i>后端</a>
-                            </li>
-                        
-                            <li role="presentation"><a href="/categories/工具/"><i class="fa fa-fw "></i>工具</a>
-                            </li>
-                        
-                            <li role="presentation"><a href="/categories/资源/"><i class="fa fa-fw "></i>资源</a>
+                            <li role="presentation"><a href="/categories/OpenGL/"><i class="fa fa-fw "></i>OpenGL</a>
                             </li>
                         
                     </ul>
@@ -119,9 +119,9 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="Hello World">
+        <h1 id="（十）attribute、uniform和varying的区别">
             
-	            Hello World
+	            （十）attribute、uniform和varying的区别
             
         </h1>
         <div class="post-meta">
@@ -129,8 +129,8 @@
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <a href="/categories/ ">
-             
+        <a href="/categories/OpenGL">
+            OpenGL
         </a>
     </span>
     
@@ -139,7 +139,9 @@
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-                 
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
             
         </span>
     </span>
@@ -147,7 +149,7 @@
     
     <span class="fa-wrap">
         <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2018/03/23</span>
+        <span class="date-meta">2018/01/28</span>
     </span>
 </div>
 
@@ -156,22 +158,28 @@
     </div>
     
     <div class="post-body post-content">
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>初次接触这三种变量类型的时候肯定有点疑惑，特地为此小结一下。</p>
+<h3 id="1-attribute变量"><a href="#1-attribute变量" class="headerlink" title="1.attribute变量"></a>1.attribute变量</h3><p>attribute变量是从shader外部传入的变量，只能在Vertex Shader中使用它。在不同的gl版本支持的attribute变量的数量是不一样的，attribute修饰符只能修饰float, vec2, vec3, vec4,mat2,mat3,mat4，attribute变量不能声明为数组或结构体。</p>
+<p>如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">attribute vec4 position; 	<span class="comment">//顶点坐标</span></span><br><span class="line"></span><br><span class="line">attribute vec3 normal;		<span class="comment">//顶点法线</span></span><br><span class="line"></span><br><span class="line">attribute vec2 texCoord;	<span class="comment">//顶点纹理坐标</span></span><br></pre></td></tr></table></figure>
+<p>传参过程：</p>
+<p>通过glGetAttribLocation(）获取属性位置，使用glEnableVertexAttribArray()激活该位置，最后通过glVertexAttribPointer()指定fbo上的数据。</p>
+<p>应用场景：传递顶点的位置、法线、颜色、纹理坐标。</p>
+<h3 id="2-uniform变量"><a href="#2-uniform变量" class="headerlink" title="2.uniform变量"></a>2.uniform变量</h3><p>uniform变量也是从shader外部传入的变量，可以在Vertex Shader和Fragment Shader中使用它，它在shader中是只可以使用不能够去修改，在Vertex Shader和Fragment Shader中是共享的，相当于一个全局的变量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">uniform mat4 viewMatrix;    	<span class="comment">//视图矩阵</span></span><br><span class="line">uniform mat4 viewMatrix;        <span class="comment">//视图矩阵</span></span><br><span class="line">uniform vec3 lightPosition;     <span class="comment">//光源位置</span></span><br></pre></td></tr></table></figure>
+<p>传参过程：</p>
+<p>通过glGetUniformLocation(）获取属性位置，最后通过glUniformxxx()传递参数。</p>
+<p>应用场景：传递MVP矩阵、光照位置、颜色等全局参数。</p>
+<h3 id="3-varying变量"><a href="#3-varying变量" class="headerlink" title="3.varying变量"></a>3.varying变量</h3><p>varying变量是Vertex Shader向Fragment Shader传递的变量类型，</p>
+<p>传参过程：可以在Vertex Shader中定义一个varying变量，然后赋值，在Fragment Shader中定义一个名称一样的varying变量就能接收到。</p>
+<p>应用场景：纹理坐标、光照计算信息、法线等。</p>
 
     </div>
 
     <div class="post-footer">   
         <div>
             
-                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Eamon</a>
             
         </div>
         <div>
@@ -182,8 +190,10 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2018/03/23/hello-hexo/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
+        <a href="/2018/02/03/（十一）封装Sprite类/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
     
+    
+        <a href="/2018/01/27/（九）使用Shader绘制三角形/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
     
 </div>
 
@@ -217,13 +227,13 @@
         
         
     <div class="widget">    
-        <h3 class="title">搜尋</h3>
+        <h3 class="title">搜索</h3>
         <div id="search-form">
             <div id="result-mask" class="hide"></div>
             <div class="search-area">
                 
                     <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
-                    <button type="button" class="search-form-submit" id="search-local">站內搜索</button>
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
                 
                 
             </div>
@@ -248,9 +258,7 @@
     <div class="widget notification">
         <h3 class="title">网站公告</h3>
         <div>
-            <p>主题Snippet v1.2.0版本已经上线！欢迎更新~ <br/>
-主题下载：<a href="https://github.com/shenliyang/hexo-theme-snippet" title="fork me" target="_blank">Snippet主题</a> <br/>
-<hr/>接受贡献，包括不限于提交问题与需求，修复代码。欢迎Pull Request<br/>支持主题：<a href="https://github.com/shenliyang/hexo-theme-snippet/stargazers">Star一下</a>
+            <p>Eamon_Chen@126.com<br/>
 </p>
         </div>
     </div>
@@ -261,59 +269,42 @@
       <h3 class="title">社交</h3> 
         <div class="content social">
             
-	            <a href="//github.com/shenliyang" rel="external nofollow" title="Github" target="_blank">
-			    	<i class="git fa fa-git"></i>
-			    </a>
-            
-	            <a href="mailto:snippet@91h5.cc" rel="external nofollow" title="邮箱" target="_blank">
+	            <a href="//eamon_chen@126.com" rel="external nofollow" title="邮箱" target="_blank">
 			    	<i class="envelope-o fa fa-envelope-o"></i>
 			    </a>
             
-	            <a href="/" rel="external nofollow" title="联系QQ" target="_blank">
-			    	<i class="qq fa fa-qq"></i>
-			    </a>
-            
-	            <a href="/" rel="external nofollow" title="微博" target="_blank">
-			    	<i class="weibo fa fa-weibo"></i>
-			    </a>
-            
-	            <a href="/" rel="external nofollow" title="QQ群" target="_blank">
-			    	<i class="users fa fa-users"></i>
-			    </a>
-            
-	            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-			    	<i class="feed fa fa-feed"></i>
-			    </a>
-            
         </div>
     </div>
 
 
         
         
-
-        
-        
     <div class="widget">
-      <h3 class="title">彙整</h3>
-        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">March 2018</i></a><span class="archive-list-count">2</span></li></ul>
+        <h3 class="title">分类</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/"><i class="fa" aria-hidden="true">OpenGL</i></a><span class="category-list-count">14</span></li></ul>
     </div>
 
 
         
         
-
-        
-        
     <div class="widget">
-        <h3 class="title">友鏈</h3>
-        <div class="content friends-link">
-        
-            <a href="http://www.shenliyang.com" class="fa" target="_blank">个人博客</a>
-        
-        </div>
+      <h3 class="title">归档</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">三月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/"><i class="fa" aria-hidden="true">二月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/"><i class="fa" aria-hidden="true">一月 2018</i></a><span class="archive-list-count">10</span></li></ul>
     </div>
 
+
+        
+        
+  <div class="widget">
+    <h3 class="title">标签云</h3>
+    <div class="content tag-cloud">
+        <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a>
+    </div>
+  </div>
+
+
+        
+        
 
         
     </aside>

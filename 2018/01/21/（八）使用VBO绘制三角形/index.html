@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Hexo">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://eamon.xyz">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>（八）使用VBO绘制三角形 | Hexo</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css?rev=3.3.4">
+<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1273222950 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273222950%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://7xpw2b.com1.z0.glb.clouddn.com/hexo-sinppet/img/banner2.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="">
+            <img src="/img/avatar.jpg" alt="logo头像">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> Another is always ready. </h2>
+             
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/Unity/"><i class="fa fa-fw "></i>Unity</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/OpenGL/"><i class="fa fa-fw "></i>OpenGL</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="（八）使用VBO绘制三角形">
+            
+	            （八）使用VBO绘制三角形
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/21</span>
+    </span>
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>在绘制第一个三角形之后发现一个问题，每次调用Draw函数的时候，CPU都会向GPU传输顶点坐标、纹理坐标、颜色等信息。在不改变的三角形的数据的前提下，这些传输开销都是在浪费性能。好在OpenGL在2.1版本之后用一个新特性可以避免这种无畏的开销，它就是VBO（Vertex buffer object）。</p>
+<p>VBO的工作原理是可以选择预先将绘制所需要的信息，用数组的方式先上传到显存中，在绘制的时候通过绑定VBO来指定绘制所需要的数据的偏移指针的方式来绘制。</p>
+<p>创建这次的场景类VBOTriangleScene继承之前制作的场景基类BaseScene。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//VBOTriangleScene.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"BaseScene.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VBOTriangleScene</span> :</span></span><br><span class="line">	<span class="keyword">public</span> BaseScene</span><br><span class="line">&#123;</span><br><span class="line">	GLuint			mVBO;</span><br><span class="line">	GLuint			mTexture;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	VBOTriangleScene();</span><br><span class="line">	~VBOTriangleScene();</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//VBOTriangleScene.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"VBOTriangleScene.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">VBOTriangleScene::VBOTriangleScene()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">VBOTriangleScene::~VBOTriangleScene()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> VBOTriangleScene::Init()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//顶点数据左侧顶点的三个是坐标，右侧是对应的纹理坐标</span></span><br><span class="line">	<span class="keyword">float</span> data[] = &#123;</span><br><span class="line">		<span class="number">-0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>,	<span class="number">0.0f</span>,<span class="number">0.0f</span>,</span><br><span class="line">		<span class="number">0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>,		<span class="number">1.0f</span>,<span class="number">0.0f</span>,</span><br><span class="line">		<span class="number">0.0f</span>, <span class="number">0.5f</span>, <span class="number">-1.0f</span>,		<span class="number">0.5f</span>,<span class="number">1.0f</span></span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="comment">//创建一个vbo</span></span><br><span class="line">	glGenBuffers(<span class="number">1</span>, &amp;mVBO);</span><br><span class="line">	<span class="comment">//绑定vbo</span></span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, mVBO);</span><br><span class="line">	<span class="comment">//上传数据到GPU</span></span><br><span class="line">	glBufferData(GL_ARRAY_BUFFER,	<span class="comment">//顶点buffer</span></span><br><span class="line">		<span class="keyword">sizeof</span>(data),				<span class="comment">//数据的大小</span></span><br><span class="line">		data,						<span class="comment">//数据数组</span></span><br><span class="line">		GL_STATIC_DRAW);			<span class="comment">//绘制类型，不需要更改用静态就可以</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//取消绑定vbo</span></span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//初始化一张纹理</span></span><br><span class="line">	mTexture = CreateTexture2DFromBMP(<span class="string">"Res/test.bmp"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> VBOTriangleScene::Draw()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//清理背景颜色为黑色</span></span><br><span class="line">	glClearColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">	<span class="comment">//清理颜色缓冲区和深度缓冲区</span></span><br><span class="line">	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line">	<span class="comment">//开启纹理</span></span><br><span class="line">	glEnable(GL_TEXTURE_2D);</span><br><span class="line">	<span class="comment">//绑定纹理</span></span><br><span class="line">	glBindTexture(GL_TEXTURE_2D, mTexture);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//绑定vbo</span></span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, mVBO);</span><br><span class="line">	<span class="comment">//开启客户端状态</span></span><br><span class="line">	glEnableClientState(GL_VERTEX_ARRAY);<span class="comment">//顶点数组</span></span><br><span class="line">	glEnableClientState(GL_TEXTURE_COORD_ARRAY);<span class="comment">//纹理坐标</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//指定顶点指针</span></span><br><span class="line">	glVertexPointer(<span class="number">3</span>,			<span class="comment">//一个点有三个数据</span></span><br><span class="line">		GL_FLOAT,				<span class="comment">//每个数据都是float类型 </span></span><br><span class="line">		<span class="keyword">sizeof</span>(GL_FLOAT) * <span class="number">5</span>,	<span class="comment">//两个顶点之间的偏移量</span></span><br><span class="line">		<span class="number">0</span>);						<span class="comment">//顶点的起始地址，0表示数组的首位</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//指定纹理坐标指针，注意观察纹理坐标在data数组中的位置</span></span><br><span class="line">	glTexCoordPointer(<span class="number">2</span>,		<span class="comment">//一个点有两个数据</span></span><br><span class="line">		GL_FLOAT,				<span class="comment">//每个数据都是float类型 </span></span><br><span class="line">		<span class="keyword">sizeof</span>(GL_FLOAT) * <span class="number">5</span>,	<span class="comment">//两个顶点之间的偏移量</span></span><br><span class="line">		(<span class="keyword">void</span>*)(<span class="keyword">sizeof</span>(GL_FLOAT) * <span class="number">3</span>));<span class="comment">//顶点的起始地址，需要跳过3个顶点坐标</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//绘制一个三角形,起始顶点为0,绘制3个顶点</span></span><br><span class="line">	glDrawArrays(GL_TRIANGLES, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">	<span class="comment">//取消vbo的绑定</span></span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//解除纹理绑定</span></span><br><span class="line">	glBindTexture(GL_TEXTURE_2D, <span class="number">0</span>);</span><br><span class="line">	<span class="comment">//禁用客户端状态</span></span><br><span class="line">	glDisableClientState(GL_VERTEX_ARRAY);</span><br><span class="line">	glDisableClientState(GL_TEXTURE_COORD_ARRAY);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"VBOTriangleScene.h"</span></span></span><br><span class="line"><span class="keyword">void</span> SceneManager::EnterScene()</span><br><span class="line">&#123;</span><br><span class="line">	mCurrentScene = <span class="keyword">new</span> VBOTriangleScene();</span><br><span class="line">	mCurrentScene-&gt;Init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>glVertexPointer和glTexCoordPointer这两个函数理解起来可能有点费劲，主要作用是指定当前绑定的VBO中的数据的偏移量指针，理解这两个函数的使用对后续学习有很大的帮助。最后的运行结果应该是跟之前的三角形是一样的。</p>
+<p><img src="/2018/01/21/（八）使用VBO绘制三角形/res.jpg" alt="res"></p>
+
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Eamon</a>
+            
+        </div>
+        <div>
+            
+        </div>  
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/01/27/（九）使用Shader绘制三角形/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
+    
+    
+        <a href="/2018/01/20/（七）抽象出场景管理器/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNTE0OS8xMTY4NA==">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">    
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget notification">
+        <h3 class="title">网站公告</h3>
+        <div>
+            <p>Eamon_Chen@126.com<br/>
+</p>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget">
+      <h3 class="title">社交</h3> 
+        <div class="content social">
+            
+	            <a href="//eamon_chen@126.com" rel="external nofollow" title="邮箱" target="_blank">
+			    	<i class="envelope-o fa fa-envelope-o"></i>
+			    </a>
+            
+        </div>
+    </div>
+
+
+        
+        
+    <div class="widget">
+        <h3 class="title">分类</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/"><i class="fa" aria-hidden="true">OpenGL</i></a><span class="category-list-count">14</span></li></ul>
+    </div>
+
+
+        
+        
+    <div class="widget">
+      <h3 class="title">归档</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">三月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/"><i class="fa" aria-hidden="true">二月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/"><i class="fa" aria-hidden="true">一月 2018</i></a><span class="archive-list-count">10</span></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">标签云</h3>
+    <div class="content tag-cloud">
+        <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a>
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>

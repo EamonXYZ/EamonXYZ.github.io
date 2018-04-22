@@ -27,7 +27,7 @@
     <!--Title-->
 
 
-<title>归档 | Hexo</title>
+<title>（三）基本图元的介绍 | Hexo</title>
 
 
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -115,81 +115,103 @@
     <section class="content-wrap">
         <div class="container">
             <div class="row">
-                <main class="col-md-8 main-content ">
-                    <div id="main">
-  <div id="post-list">
-    <ul class="archives-post-list">
-    	<h1 class="info">年 月</h1>
-        
-          <li class="post-items" _href="/2018/03/10/（十四）漫反射光/">
-            <h3 class="post-item-title">
-            	<a href="/2018/03/10/（十四）漫反射光/"> （十四）漫反射光 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/03/03/（十三）环境光/">
-            <h3 class="post-item-title">
-            	<a href="/2018/03/03/（十三）环境光/"> （十三）环境光 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/02/10/（十二）封装Model类/">
-            <h3 class="post-item-title">
-            	<a href="/2018/02/10/（十二）封装Model类/"> （十二）封装Model类 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/02/03/（十一）封装Sprite类/">
-            <h3 class="post-item-title">
-            	<a href="/2018/02/03/（十一）封装Sprite类/"> （十一）封装Sprite类 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/28/（十）attribute、uniform和varying的区别/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/28/（十）attribute、uniform和varying的区别/"> （十）attribute、uniform和varying的区别 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/27/（九）使用Shader绘制三角形/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/27/（九）使用Shader绘制三角形/"> （九）使用Shader绘制三角形 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/21/（八）使用VBO绘制三角形/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/21/（八）使用VBO绘制三角形/"> （八）使用VBO绘制三角形 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/20/（七）抽象出场景管理器/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/20/（七）抽象出场景管理器/"> (七)抽象出场景管理器 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/07/（六）为三角形贴图/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/07/（六）为三角形贴图/"> （六）为三角形贴图 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2018/01/07/（五）解析BMP文件/">
-            <h3 class="post-item-title">
-            	<a href="/2018/01/07/（五）解析BMP文件/"> （五）解析BMP文件 </a>
-            </h3>  
-          </li>
-        
-    </ul>
-  </div>
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="（三）基本图元的介绍">
+            
+	            （三）基本图元的介绍
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/06</span>
+    </span>
 </div>
 
-    <nav class="pagination" role="navigation">
-        <div id="page-nav">
-            <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class='fa fa-angle-right'></i></a>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>OpenGL提供了多种图元的绘制，其中最为重要的图元是GL_TRIANGLES和GL_QUADS，其他使用的频率不高的图元在用的时候查下资料就可以了。</p>
+<p>GL_POINTS：把每一个顶点作为一个点进行处理，顶点n即定义了点n，共绘制N个点</p>
+<p>GL_LINES：把每一个顶点作为一个独立的线段，顶点2n－1和2n之间共定义了n条线段，总共绘制N/2条线段</p>
+<p>GL_LINE_STRIP：绘制从第一个顶点到最后一个顶点依次相连的一组线段，第n和n+1个顶点定义了线段n，总共绘制n－1条线段</p>
+<p>L_LINE_LOOP：绘制从第一个顶点到最后一个顶点依次相连的一组线段，然后最后一个顶点和第一个顶点相连，第n和n+1个顶点定义了线段n，总共绘制n条线段</p>
+<p>GL_TRIANGLES：把每个顶点作为一个独立的三角形，顶点3n－2、3n－1和3n定义了第n个三角形，总共绘制N/3个三角形</p>
+<p>GL_TRIANGLE_STRIP：绘制一组相连的三角形，对于奇数n，顶点n、n+1和n+2定义了第n个三角形；对于偶数n，顶点n+1、n和n+2定义了第n个三角形，总共绘制N-2个三角形</p>
+<p>GL_TRIANGLE_FAN：绘制一组相连的三角形，三角形是由第一个顶点及其后给定的顶点确定，顶点1、n+1和n+2定义了第n个三角形，总共绘制N-2个三角形</p>
+<p>GL_QUADS：绘制由四个顶点组成的一组单独的四边形。顶点4n－3、4n－2、4n－1和4n定义了第n个四边形。总共绘制N/4个四边形</p>
+<p>GL_QUAD_STRIP：绘制一组相连的四边形。每个四边形是由一对顶点及其后给定的一对顶点共同确定的。顶点2n－1、2n、2n+2和2n+1定义了第n个四边形，总共绘制N/2-1个四边形</p>
+<p>GL_POLYGON：绘制一个凸多边形。顶点1到n定义了这个多边形。</p>
+
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Eamon</a>
+            
         </div>
-    </nav>
+        <div>
+            
+        </div>  
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/01/07/（四）实现文件加载/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
+    
+    
+        <a href="/2018/01/06/（二）绘制第一个三角形/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNTE0OS8xMTY4NA==">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
 
 
 

@@ -1,0 +1,362 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Hexo">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://eamon.xyz">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>（十一）封装Sprite类 | Hexo</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css?rev=3.3.4">
+<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1273222950 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273222950%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://7xpw2b.com1.z0.glb.clouddn.com/hexo-sinppet/img/banner2.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="">
+            <img src="/img/avatar.jpg" alt="logo头像">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> Another is always ready. </h2>
+             
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/Unity/"><i class="fa fa-fw "></i>Unity</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/OpenGL/"><i class="fa fa-fw "></i>OpenGL</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="（十一）封装Sprite类">
+            
+	            （十一）封装Sprite类
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/02/03</span>
+    </span>
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>一直在画三角形，总会觉得看不到实用性，接下来自己动手用之前用过的GL API封装一个Sprite类。</p>
+<p>在此之前我们先封装两个工具类，Shader和VertexBuffer类，为以后实现其他功能提供便利性。</p>
+<p>首先引用一个数学库方便我们的计算，这里选择GLM。github地址：<a href="https://github.com/g-truc/glm" target="_blank" rel="noopener">https://github.com/g-truc/glm</a></p>
+<p>工程中使用的版本为：<a href="https://pan.baidu.com/s/1tnUjQuUkmXVxOlq5hgo7tA" target="_blank" rel="noopener">https://pan.baidu.com/s/1tnUjQuUkmXVxOlq5hgo7tA</a></p>
+<p>在GlobalGL.h中添加引用就可以了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//GlobalGL.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"glew.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gl/GL.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gl/GLU.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gl/glext.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Glm/glm.hpp"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Glm/ext.hpp"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> glm;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br></pre></td></tr></table></figure>
+<p>VertexBuffer类主要是将vbo的初始化和绘制每帧绑定数据的功能封装起来。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//VertexBuffer.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"utils.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Vertex</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">float</span> position[<span class="number">4</span>];</span><br><span class="line">	<span class="keyword">float</span> color[<span class="number">4</span>];</span><br><span class="line">	<span class="keyword">float</span> texcoord[<span class="number">4</span>];</span><br><span class="line">	<span class="keyword">float</span> normal[<span class="number">4</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VertexBuffer</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	GLuint				mVbo;</span><br><span class="line">	Vertex				*mVertexes;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span>		mVertexCount;</span><br><span class="line">	VertexBuffer();</span><br><span class="line">	VertexBuffer(<span class="keyword">int</span> vertexCount);</span><br><span class="line">	~VertexBuffer();</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SetSize</span><span class="params">(<span class="keyword">int</span> vertexCount)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SetPosition</span><span class="params">(<span class="keyword">size_t</span> index, <span class="keyword">float</span> x, <span class="keyword">float</span> y, <span class="keyword">float</span> z, <span class="keyword">float</span> w = <span class="number">1.0f</span>)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SetColor</span><span class="params">(<span class="keyword">size_t</span> index, <span class="keyword">float</span> r, <span class="keyword">float</span> g, <span class="keyword">float</span> b, <span class="keyword">float</span> a = <span class="number">1.0f</span>)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SetNormal</span><span class="params">(<span class="keyword">size_t</span> index, <span class="keyword">float</span> x, <span class="keyword">float</span> y, <span class="keyword">float</span> z)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SetTexcoord</span><span class="params">(<span class="keyword">size_t</span> index, <span class="keyword">float</span> x, <span class="keyword">float</span> y)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Bind</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Unbind</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function">Vertex&amp; <span class="title">Get</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//VertexBuffer.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"VertexBuffer.h"</span></span></span><br><span class="line"></span><br><span class="line">VertexBuffer::VertexBuffer()</span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">VertexBuffer::VertexBuffer(<span class="keyword">int</span> vertexCount)</span><br><span class="line">&#123;</span><br><span class="line">	SetSize(vertexCount);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">VertexBuffer::~VertexBuffer()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">delete</span> mVertexes;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> VertexBuffer::SetSize(<span class="keyword">int</span> vertexCount)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//设置顶点个数</span></span><br><span class="line">	mVertexCount = vertexCount;</span><br><span class="line">	mVertexes = <span class="keyword">new</span> Vertex[vertexCount];</span><br><span class="line">	<span class="built_in">memset</span>(mVertexes, <span class="number">0</span>, <span class="keyword">sizeof</span>(Vertex) * vertexCount);<span class="comment">//初始化顶点数组</span></span><br><span class="line">	<span class="comment">//创建vbo</span></span><br><span class="line">	mVbo = CreateBufferObject(GL_ARRAY_BUFFER, <span class="keyword">sizeof</span>(Vertex)*mVertexCount, GL_STATIC_DRAW, <span class="literal">nullptr</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> VertexBuffer::SetPosition(<span class="keyword">size_t</span> index, <span class="keyword">float</span> x, <span class="keyword">float</span> y, <span class="keyword">float</span> z, <span class="keyword">float</span> w)</span><br><span class="line">&#123;</span><br><span class="line">	mVertexes[index].position[<span class="number">0</span>] = x;</span><br><span class="line">	mVertexes[index].position[<span class="number">1</span>] = y;</span><br><span class="line">	mVertexes[index].position[<span class="number">2</span>] = z;</span><br><span class="line">	mVertexes[index].position[<span class="number">3</span>] = w;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> VertexBuffer::SetColor(<span class="keyword">size_t</span> index, <span class="keyword">float</span> r, <span class="keyword">float</span> g, <span class="keyword">float</span> b, <span class="keyword">float</span> a)</span><br><span class="line">&#123;</span><br><span class="line">	mVertexes[index].color[<span class="number">0</span>] = r;</span><br><span class="line">	mVertexes[index].color[<span class="number">1</span>] = g;</span><br><span class="line">	mVertexes[index].color[<span class="number">2</span>] = b;</span><br><span class="line">	mVertexes[index].color[<span class="number">3</span>] = a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> VertexBuffer::SetNormal(<span class="keyword">size_t</span> index, <span class="keyword">float</span> x, <span class="keyword">float</span> y, <span class="keyword">float</span> z)</span><br><span class="line">&#123;</span><br><span class="line">	mVertexes[index].normal[<span class="number">0</span>] = x;</span><br><span class="line">	mVertexes[index].normal[<span class="number">1</span>] = y;</span><br><span class="line">	mVertexes[index].normal[<span class="number">2</span>] = z;</span><br><span class="line">	mVertexes[index].normal[<span class="number">3</span>] = <span class="number">1.0f</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> VertexBuffer::SetTexcoord(<span class="keyword">size_t</span> index, <span class="keyword">float</span> x, <span class="keyword">float</span> y)</span><br><span class="line">&#123;</span><br><span class="line">	mVertexes[index].texcoord[<span class="number">0</span>] = x;</span><br><span class="line">	mVertexes[index].texcoord[<span class="number">1</span>] = y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> VertexBuffer::Bind()</span><br><span class="line">&#123;</span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, mVbo);</span><br><span class="line">	glBufferSubData(GL_ARRAY_BUFFER, <span class="number">0</span>, <span class="keyword">sizeof</span>(Vertex)*mVertexCount, mVertexes);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> VertexBuffer::Unbind()</span><br><span class="line">&#123;</span><br><span class="line">	glBindBuffer(GL_ARRAY_BUFFER, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Vertex&amp;VertexBuffer::Get(<span class="keyword">int</span> index) &#123;</span><br><span class="line">	<span class="keyword">return</span> mVertexes[index];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Shader类的功能主要是将GPU Program链接创建shader的步骤和传值给Shader的功能都封装了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Shader.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"GlobalGL.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"utils.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"VertexBuffer.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">UniformTexture</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	GLuint mLocation;</span><br><span class="line">	GLuint mTexture;</span><br><span class="line">	UniformTexture() &#123;</span><br><span class="line">		mLocation = <span class="number">-1</span>;</span><br><span class="line">		mTexture = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">UniformVec4</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	GLuint mLocation;</span><br><span class="line">	<span class="keyword">float</span> v[<span class="number">4</span>];</span><br><span class="line">	UniformVec4()</span><br><span class="line">	&#123;</span><br><span class="line">		mLocation = <span class="number">-1</span>;</span><br><span class="line">		<span class="built_in">memset</span>(v, <span class="number">0</span>, <span class="keyword">sizeof</span>(v));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">UniformMat</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	GLuint mLocation;</span><br><span class="line">	<span class="keyword">float</span> *vPtr;</span><br><span class="line">	UniformMat()</span><br><span class="line">	&#123;</span><br><span class="line">		mLocation = <span class="number">-1</span>;</span><br><span class="line">		vPtr = <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Shader</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">stack</span>&lt;GLuint&gt;				mAttachedShaders;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, GLint&gt;	mLocations;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">map</span>&lt;<span class="built_in">string</span>,UniformTexture*&gt;	mTexures;</span><br><span class="line">	<span class="built_in">map</span>&lt;<span class="built_in">string</span>, UniformVec4*&gt;	mUniformVec4s;</span><br><span class="line">	<span class="built_in">map</span>&lt;<span class="built_in">string</span>, UniformMat*&gt;	mUniformMats;</span><br><span class="line">	GLuint						mProgram;</span><br><span class="line">	Shader();</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *vs, <span class="keyword">const</span> <span class="keyword">char</span> *fs)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Bind</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function">GLint <span class="title">DetectAttribute</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *attributeName)</span></span>;</span><br><span class="line">	<span class="function">GLint <span class="title">DetectUniform</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *uniformName)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SetTextureWithPath</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">const</span> <span class="keyword">char</span> *imagePath)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SetTexture</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *name, GLuint texture)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SetUniformVec4</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">float</span> x,<span class="keyword">float</span> y,<span class="keyword">float</span> z, <span class="keyword">float</span> w)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">SetUniformMat</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">float</span> *matPtr)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">CheckDetected</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *name)</span></span>;</span><br><span class="line"></span><br><span class="line">	~Shader();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Shader.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Shader.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Shader::Shader()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Shader::Init(<span class="keyword">const</span> <span class="keyword">char</span> *vs, <span class="keyword">const</span> <span class="keyword">char</span> *fs)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//初始化shader</span></span><br><span class="line">	<span class="keyword">int</span> nFileSize = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>*vsCode = (<span class="keyword">char</span>*)LoadFileContent(vs, nFileSize);</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>*fsCode = (<span class="keyword">char</span>*)LoadFileContent(fs, nFileSize);</span><br><span class="line">	GLuint vsShader = CompileShader(GL_VERTEX_SHADER, vsCode);</span><br><span class="line">	<span class="keyword">if</span> (vsShader == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	GLuint fsShader = CompileShader(GL_FRAGMENT_SHADER, fsCode);</span><br><span class="line">	<span class="keyword">if</span> (fsShader == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//gpu program 初始化</span></span><br><span class="line">	mProgram = CreateProgram(vsShader, fsShader);</span><br><span class="line">	glDeleteShader(vsShader);<span class="comment">//删除vsShader</span></span><br><span class="line">	glDeleteShader(fsShader);<span class="comment">//删除fsShader</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">GLint Shader::DetectAttribute(<span class="keyword">const</span> <span class="keyword">char</span>* attributeName)</span><br><span class="line">&#123;</span><br><span class="line">	GLint loc = glGetAttribLocation(mProgram, attributeName);</span><br><span class="line">	<span class="keyword">if</span> (loc != <span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		mLocations.insert(<span class="built_in">std</span>::pair&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, GLint&gt;(attributeName, loc));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"DetectAttribute Error! attributeName=%s"</span>, attributeName);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> loc;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GLint Shader::DetectUniform(<span class="keyword">const</span> <span class="keyword">char</span>* uniformName)</span><br><span class="line">&#123;</span><br><span class="line">	GLint loc = glGetUniformLocation(mProgram, uniformName);</span><br><span class="line">	<span class="keyword">if</span> (loc != <span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		mLocations.insert(<span class="built_in">std</span>::pair&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, GLint&gt;(uniformName, loc));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"DetectUniform Error! uniformName=%s"</span>, uniformName);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> loc;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Shader::Bind()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//绑定当前GPU Program</span></span><br><span class="line">	glUseProgram(mProgram);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置纹理绑定，实现多个纹理的传输</span></span><br><span class="line">	<span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> iter = mTexures.begin(); iter != mTexures.end(); ++iter)</span><br><span class="line">	&#123;</span><br><span class="line">		glActiveTexture(GL_TEXTURE0 + index);</span><br><span class="line">		glBindTexture(GL_TEXTURE_2D, iter-&gt;second-&gt;mTexture);</span><br><span class="line">		glUniform1i(iter-&gt;second-&gt;mLocation, index ++);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//传输设置过的uniform属性</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> iter = mUniformVec4s.begin();iter != mUniformVec4s.end();++iter)</span><br><span class="line">	&#123;</span><br><span class="line">		glUniform4fv(iter-&gt;second-&gt;mLocation, <span class="number">1</span>, iter-&gt;second-&gt;v);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置uniform矩阵</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> iter = mUniformMats.begin(); iter != mUniformMats.end(); ++iter)</span><br><span class="line">	&#123;</span><br><span class="line">		glUniformMatrix4fv(iter-&gt;second-&gt;mLocation, <span class="number">1</span>, GL_FALSE, iter-&gt;second-&gt;vPtr);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置attribute属性</span></span><br><span class="line">	<span class="keyword">if</span> (CheckDetected(<span class="string">"position"</span>))<span class="comment">//检测是否需要用position</span></span><br><span class="line">	&#123;</span><br><span class="line">		glEnableVertexAttribArray(mLocations[<span class="string">"position"</span>]);</span><br><span class="line">		glVertexAttribPointer(mLocations[<span class="string">"position"</span>], <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="keyword">sizeof</span>(Vertex), <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (CheckDetected(<span class="string">"color"</span>))<span class="comment">//检测是否需要用color</span></span><br><span class="line">	&#123;</span><br><span class="line">		glEnableVertexAttribArray(mLocations[<span class="string">"color"</span>]);</span><br><span class="line">		glVertexAttribPointer(mLocations[<span class="string">"color"</span>], <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="keyword">sizeof</span>(Vertex), (<span class="keyword">void</span>*)(<span class="keyword">sizeof</span>(<span class="keyword">float</span>) * <span class="number">4</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (CheckDetected(<span class="string">"texcoord"</span>))<span class="comment">//检测是否需要用texcoord</span></span><br><span class="line">	&#123;</span><br><span class="line">		glEnableVertexAttribArray(mLocations[<span class="string">"texcoord"</span>]);</span><br><span class="line">		glVertexAttribPointer(mLocations[<span class="string">"texcoord"</span>], <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="keyword">sizeof</span>(Vertex), (<span class="keyword">void</span>*)(<span class="keyword">sizeof</span>(<span class="keyword">float</span>) * <span class="number">8</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (CheckDetected(<span class="string">"normal"</span>))<span class="comment">//检测是否需要用normal</span></span><br><span class="line">	&#123;</span><br><span class="line">		glEnableVertexAttribArray(mLocations[<span class="string">"normal"</span>]);</span><br><span class="line">		glVertexAttribPointer(mLocations[<span class="string">"normal"</span>], <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="keyword">sizeof</span>(Vertex), (<span class="keyword">void</span>*)(<span class="keyword">sizeof</span>(<span class="keyword">float</span>) * <span class="number">12</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Shader::SetTextureWithPath(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">const</span> <span class="keyword">char</span> *imagePath)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//创建一个图片</span></span><br><span class="line">	GLuint texture = CreateTexture2DFromBMP(imagePath);</span><br><span class="line">	<span class="comment">//设置图片</span></span><br><span class="line">	SetTexture(name, texture);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Shader::SetTexture(<span class="keyword">const</span> <span class="keyword">char</span> *name, GLuint texture)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">auto</span> iter = mTexures.find(name);</span><br><span class="line">	<span class="keyword">if</span> (iter == mTexures.end())<span class="comment">//如果图片没有设置过</span></span><br><span class="line">	&#123;</span><br><span class="line">		GLint location = glGetUniformLocation(mProgram, name);</span><br><span class="line">		<span class="keyword">if</span> (location != <span class="number">-1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			UniformTexture *t = <span class="keyword">new</span> UniformTexture;</span><br><span class="line">			t-&gt;mLocation = location;</span><br><span class="line">			t-&gt;mTexture = texture;</span><br><span class="line">			mTexures.insert(pair&lt;<span class="built_in">string</span>, UniformTexture*&gt;(name, t));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span><span class="comment">//图片已经设置过就替换该图</span></span><br><span class="line">	&#123;</span><br><span class="line">		glDeleteTextures(<span class="number">1</span>, &amp;iter-&gt;second-&gt;mTexture);</span><br><span class="line">		iter-&gt;second-&gt;mTexture = texture;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Shader::SetUniformVec4(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">float</span> x, <span class="keyword">float</span> y, <span class="keyword">float</span> z, <span class="keyword">float</span> w)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">auto</span> iter = mUniformVec4s.find(name);</span><br><span class="line">	<span class="keyword">if</span> (iter == mUniformVec4s.end())</span><br><span class="line">	&#123;</span><br><span class="line">		GLuint slot = DetectUniform(name);</span><br><span class="line">		<span class="keyword">if</span> (slot != <span class="number">-1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			UniformVec4 *uVec4 = <span class="keyword">new</span> UniformVec4;</span><br><span class="line">			uVec4-&gt;mLocation = slot;</span><br><span class="line">			uVec4-&gt;v[<span class="number">0</span>] = x;</span><br><span class="line">			uVec4-&gt;v[<span class="number">1</span>] = y;</span><br><span class="line">			uVec4-&gt;v[<span class="number">2</span>] = z;</span><br><span class="line">			uVec4-&gt;v[<span class="number">3</span>] = w;</span><br><span class="line">			mUniformVec4s.insert(pair&lt;<span class="built_in">string</span>, UniformVec4*&gt;(name, uVec4));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		iter-&gt;second-&gt;v[<span class="number">0</span>] = x;</span><br><span class="line">		iter-&gt;second-&gt;v[<span class="number">1</span>] = y;</span><br><span class="line">		iter-&gt;second-&gt;v[<span class="number">2</span>] = z;</span><br><span class="line">		iter-&gt;second-&gt;v[<span class="number">3</span>] = w;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Shader::SetUniformMat(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">float</span> *matPtr)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">auto</span> iter = mUniformMats.find(name);</span><br><span class="line">	<span class="keyword">if</span> (iter == mUniformMats.end())</span><br><span class="line">	&#123;</span><br><span class="line">		GLuint slot = DetectUniform(name);</span><br><span class="line">		<span class="keyword">if</span> (slot != <span class="number">-1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			UniformMat *um = <span class="keyword">new</span> UniformMat;</span><br><span class="line">			um-&gt;mLocation = slot;</span><br><span class="line">			um-&gt;vPtr = matPtr;</span><br><span class="line">			mUniformMats.insert(pair&lt;<span class="built_in">string</span>, UniformMat*&gt;(name, um));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		iter-&gt;second-&gt;vPtr = matPtr;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> Shader::CheckDetected(<span class="keyword">const</span> <span class="keyword">char</span> *name)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">auto</span> iter = mLocations.find(name);</span><br><span class="line">	<span class="keyword">return</span> mLocations.end() != iter;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Shader::~Shader()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了这两个类的封装，实现绘制Sprite那就容易多了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Sprite.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"VertexBuffer.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Shader.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sprite</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	VertexBuffer		*mVertexBuffer;</span><br><span class="line">	Shader				*mShader;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Sprite();</span><br><span class="line">	~Sprite();</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *imgPath)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Sprite.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Sprite.h"</span></span></span><br><span class="line"></span><br><span class="line">Sprite::Sprite()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Sprite::~Sprite()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">delete</span> mShader;</span><br><span class="line">	<span class="keyword">delete</span> mVertexBuffer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Sprite::Init(<span class="keyword">const</span> <span class="keyword">char</span> *imgPath)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//初始化顶点buffer 设置四个顶点的信息。</span></span><br><span class="line">	mVertexBuffer = <span class="keyword">new</span> VertexBuffer;</span><br><span class="line">	mVertexBuffer-&gt;SetSize(<span class="number">4</span>);</span><br><span class="line">	mVertexBuffer-&gt;SetPosition(<span class="number">0</span>, <span class="number">-0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>);</span><br><span class="line">	mVertexBuffer-&gt;SetPosition(<span class="number">1</span>, <span class="number">0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-1.0f</span>);</span><br><span class="line">	mVertexBuffer-&gt;SetPosition(<span class="number">2</span>, <span class="number">0.5f</span>, <span class="number">0.5f</span>, <span class="number">-1.0f</span>);</span><br><span class="line">	mVertexBuffer-&gt;SetPosition(<span class="number">3</span>, <span class="number">-0.5f</span>, <span class="number">0.5f</span>, <span class="number">-1.0f</span>);</span><br><span class="line">	mVertexBuffer-&gt;SetTexcoord(<span class="number">0</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line">	mVertexBuffer-&gt;SetTexcoord(<span class="number">1</span>, <span class="number">1.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line">	mVertexBuffer-&gt;SetTexcoord(<span class="number">2</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">	mVertexBuffer-&gt;SetTexcoord(<span class="number">3</span>, <span class="number">0.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//初始化shader</span></span><br><span class="line">	mShader = <span class="keyword">new</span> Shader;</span><br><span class="line">	mShader-&gt;Init(<span class="string">"Res/Shader/first.vs"</span>, <span class="string">"Res/Shader/first.fs"</span>);</span><br><span class="line">	mShader-&gt;SetTextureWithPath(<span class="string">"U_Texture"</span>, imgPath);</span><br><span class="line">	mShader-&gt;DetectAttribute(<span class="string">"position"</span>);</span><br><span class="line">	mShader-&gt;DetectAttribute(<span class="string">"texcoord"</span>);</span><br><span class="line">	mShader-&gt;DetectUniform(<span class="string">"U_Texture"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Sprite::Draw()</span><br><span class="line">&#123;</span><br><span class="line">	mVertexBuffer-&gt;Bind();</span><br><span class="line">	mShader-&gt;Bind();</span><br><span class="line">	glDrawArrays(GL_QUADS, <span class="number">0</span>, mVertexBuffer-&gt;mVertexCount);</span><br><span class="line">	mVertexBuffer-&gt;Unbind();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过抽象后，可能现在看起来总体实现的代码量多了，但是复用率提高了，对以后其他功能的实现提供便利。</p>
+<p>新建DrawSpriteScene类，在初始化和帧绘制函数中创建和刷新这个Sprite。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DrawSpriteScene.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"BaseScene.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Sprite.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DrawSpriteScene</span> :</span></span><br><span class="line">	<span class="keyword">public</span> BaseScene</span><br><span class="line">&#123;</span><br><span class="line">	Sprite				*mSprite;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	DrawSpriteScene();</span><br><span class="line">	~DrawSpriteScene();</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DrawSpriteScene.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"DrawSpriteScene.h"</span></span></span><br><span class="line"></span><br><span class="line">DrawSpriteScene::DrawSpriteScene()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DrawSpriteScene::~DrawSpriteScene()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">delete</span> mSprite;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> DrawSpriteScene::Init()</span><br><span class="line">&#123;</span><br><span class="line">	mSprite = <span class="keyword">new</span> Sprite;</span><br><span class="line">	mSprite-&gt;Init(<span class="string">"Res/test.bmp"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> DrawSpriteScene::Draw()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//清理背景颜色为黑色</span></span><br><span class="line">	glClearColor(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">	<span class="comment">//清理颜色缓冲区和深度缓冲区</span></span><br><span class="line">	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">	mSprite-&gt;Draw();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在SceneManager类中切换该场景。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//SceneManager.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"DrawSpriteScene.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> SceneManager::EnterScene()</span><br><span class="line">&#123;</span><br><span class="line">	mCurrentScene = <span class="keyword">new</span> DrawSpriteScene();</span><br><span class="line">	mCurrentScene-&gt;Init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/02/03/（十一）封装Sprite类/res.jpg" alt="res"></p>
+
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Eamon</a>
+            
+        </div>
+        <div>
+            
+        </div>  
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/02/10/（十二）封装Model类/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
+    
+    
+        <a href="/2018/01/28/（十）attribute、uniform和varying的区别/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNTE0OS8xMTY4NA==">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">    
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget notification">
+        <h3 class="title">网站公告</h3>
+        <div>
+            <p>Eamon_Chen@126.com<br/>
+</p>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget">
+      <h3 class="title">社交</h3> 
+        <div class="content social">
+            
+	            <a href="//eamon_chen@126.com" rel="external nofollow" title="邮箱" target="_blank">
+			    	<i class="envelope-o fa fa-envelope-o"></i>
+			    </a>
+            
+        </div>
+    </div>
+
+
+        
+        
+    <div class="widget">
+        <h3 class="title">分类</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/"><i class="fa" aria-hidden="true">OpenGL</i></a><span class="category-list-count">14</span></li></ul>
+    </div>
+
+
+        
+        
+    <div class="widget">
+      <h3 class="title">归档</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">三月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/"><i class="fa" aria-hidden="true">二月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/"><i class="fa" aria-hidden="true">一月 2018</i></a><span class="archive-list-count">10</span></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">标签云</h3>
+    <div class="content tag-cloud">
+        <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a>
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>

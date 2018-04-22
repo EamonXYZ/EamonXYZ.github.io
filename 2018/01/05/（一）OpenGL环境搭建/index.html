@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="Hexo">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://eamon.xyz">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>（一）OpenGL环境搭建 | Hexo</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css?rev=3.3.4">
+<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1273222950 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273222950%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://7xpw2b.com1.z0.glb.clouddn.com/hexo-sinppet/img/banner2.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="">
+            <img src="/img/avatar.jpg" alt="logo头像">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> Another is always ready. </h2>
+             
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/Unity/"><i class="fa fa-fw "></i>Unity</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/OpenGL/"><i class="fa fa-fw "></i>OpenGL</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="（一）OpenGL环境搭建">
+            
+	            （一）OpenGL环境搭建
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/OpenGL">
+            OpenGL
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a href="/tags/OpenGL">
+               OpenGL
+            </a>
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/01/05</span>
+    </span>
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>使用Visual Studio创建一个win32空项目，若使用2017版本则可以选择Windows桌面向导来创建一个空的win32项目。</p>
+<h2 id="初始化窗体"><a href="#初始化窗体" class="headerlink" title="初始化窗体"></a>初始化窗体</h2><p>创建一个main.cpp，为程序添加入口函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">WinMain</span><span class="params">(_In_ HINSTANCE hInstance,<span class="comment">//当前实例的句柄</span></span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ HINSTANCE hPrevInstance,<span class="comment">//前一个实例的句柄</span></span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ LPSTR lpCmdLine,<span class="comment">//命令行参数</span></span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ <span class="keyword">int</span> nShowCmd)</span><span class="comment">//窗体显示形式(最大化、最小化)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果没什么问题的话，运行起来可以看到一个黑色窗体。接下进行窗体类的初始化。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">LRESULT CALLBACK <span class="title">GLWindowProc</span><span class="params">(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> (msg)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">case</span> WM_DESTROY:</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> DefWindowProc(hwnd, msg, wParam, lParam);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//初始化一些gl变量</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Draw</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//绘制gl的函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitGLEnv</span><span class="params">(HDC &amp;dc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//初始化gl环境</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">WinMain</span><span class="params">(_In_ HINSTANCE hInstance,<span class="comment">//当前实例的句柄</span></span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ HINSTANCE hPrevInstance,<span class="comment">//前一个实例的句柄</span></span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ LPSTR lpCmdLine,<span class="comment">//命令行参数</span></span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ <span class="keyword">int</span> nShowCmd)</span><span class="comment">//窗体显示形式(最大化、最小化)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	WNDCLASSEX wndclass;</span><br><span class="line">	wndclass.cbClsExtra = <span class="number">0</span>;<span class="comment">//窗口类型的额外空间</span></span><br><span class="line">	wndclass.cbSize = <span class="keyword">sizeof</span>(WNDCLASSEX);<span class="comment">//这个对象实际占的内存</span></span><br><span class="line">	wndclass.cbWndExtra = <span class="number">0</span>;<span class="comment">//窗口的额外内存</span></span><br><span class="line">	wndclass.hbrBackground = <span class="literal">NULL</span>;<span class="comment">//使用GL背景擦除，设置为NULL就可以了</span></span><br><span class="line">	wndclass.hCursor = LoadCursor(<span class="literal">NULL</span>, IDC_ARROW); <span class="comment">//设置一个箭头作为光标</span></span><br><span class="line">	wndclass.hIcon = <span class="literal">NULL</span>;<span class="comment">//应用程序在磁盘的图标</span></span><br><span class="line">	wndclass.hIconSm = <span class="literal">NULL</span>;<span class="comment">//应用程序运行时显示在左上角的图标</span></span><br><span class="line">	wndclass.hInstance = hInstance;<span class="comment">//应用程序的实例</span></span><br><span class="line">	wndclass.lpfnWndProc = GLWindowProc;<span class="comment">//窗口消息调用函数</span></span><br><span class="line">	wndclass.lpszClassName = <span class="string">L"GL Window"</span>;<span class="comment">//注册窗口使用的名称</span></span><br><span class="line">	wndclass.lpszMenuName = <span class="literal">NULL</span>;<span class="comment">//菜单名称</span></span><br><span class="line">	wndclass.style = CS_VREDRAW | CS_HREDRAW;<span class="comment">//重绘的方式，使用垂直和水平重绘</span></span><br><span class="line">	<span class="comment">//注册窗口</span></span><br><span class="line">	ATOM atom = RegisterClassEx(&amp;wndclass);</span><br><span class="line">	<span class="keyword">if</span> (!atom)</span><br><span class="line">	&#123;</span><br><span class="line">		MessageBox(<span class="literal">NULL</span>, <span class="string">L"Notice"</span>, <span class="string">L"Error"</span>, MB_OK);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//计算屏幕加上边框的Rect值是多少</span></span><br><span class="line">	RECT rect;</span><br><span class="line">	rect.left = <span class="number">0</span>;</span><br><span class="line">	rect.right = <span class="number">800</span>;</span><br><span class="line">	rect.top = <span class="number">0</span>;</span><br><span class="line">	rect.bottom = <span class="number">600</span>;</span><br><span class="line">	AdjustWindowRect(&amp;rect, WS_OVERLAPPEDWINDOW, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">int</span> wWidth = rect.right - rect.left;</span><br><span class="line">	<span class="keyword">int</span> wHeight = rect.bottom - rect.top;</span><br><span class="line">	<span class="comment">//创建窗口类</span></span><br><span class="line">	HWND hwnd = CreateWindowEx(<span class="literal">NULL</span>,<span class="comment">//窗口的额外风格</span></span><br><span class="line">		<span class="string">L"GL Window"</span>,<span class="comment">//注册的窗口名称  需要跟上面结构体注册的名称一致</span></span><br><span class="line">		<span class="string">L"OpenGL Window"</span>,<span class="comment">//显示在窗口上的title内容</span></span><br><span class="line">		WS_OVERLAPPEDWINDOW,<span class="comment">//窗体的风格</span></span><br><span class="line">		<span class="number">100</span>, <span class="number">100</span>, wWidth, wHeight,<span class="comment">//窗口的Rect</span></span><br><span class="line">		<span class="literal">NULL</span>,<span class="comment">//父窗口的句柄 </span></span><br><span class="line">		<span class="literal">NULL</span>,<span class="comment">//菜单的句柄</span></span><br><span class="line">		hInstance,<span class="comment">//应用程序的实例</span></span><br><span class="line">		<span class="literal">NULL</span>);<span class="comment">//额外的参数  可能会传WM_QUIT消息 可以不需要</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//初始化gl环境</span></span><br><span class="line">	InitGLEnv(dc);</span><br><span class="line">	<span class="comment">//显示窗口</span></span><br><span class="line">	ShowWindow(hwnd, SW_SHOW);</span><br><span class="line">	<span class="comment">//更新窗口</span></span><br><span class="line">	UpdateWindow(hwnd);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//初始化</span></span><br><span class="line">    Init();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//处理消息循环</span></span><br><span class="line">	MSG msg;</span><br><span class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//实时获取消息队列里的消息，并抛出去</span></span><br><span class="line">		<span class="keyword">if</span> (PeekMessage(&amp;msg, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="number">0</span>, PM_REMOVE))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (msg.message == WM_CLOSE)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"结束"</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			TranslateMessage(&amp;msg);</span><br><span class="line">			DispatchMessage(&amp;msg);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//执行绘制</span></span><br><span class="line">		Draw();</span><br><span class="line">        <span class="comment">//交换缓冲池</span></span><br><span class="line">		SwapBuffers(dc);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在应该可以看到一个白色的自定义的窗口，而不是一开始那个黑色控制台。但这些跟OpenGL还没什么关系，那么接下来我们继续完善代码，初始化好GL的环境。</p>
+<h2 id="初始化OpenL环境"><a href="#初始化OpenL环境" class="headerlink" title="初始化OpenL环境"></a>初始化OpenL环境</h2><p>首先在main.cpp文件的首部添加GL的<a href="https://pan.baidu.com/s/1gsvsf72RD7Z-zNKUVpK9jg" target="_blank" rel="noopener">依赖库和头文件</a>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gl/GL.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gl/GLU.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gl/glext.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"glew.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">"opengl32.lib"</span>) <span class="comment">//vs自带</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">"glew32.lib"</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitGLEnv</span><span class="params">(HDC &amp;dc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	PIXELFORMATDESCRIPTOR pfd;	<span class="comment">//像素格式描述对象</span></span><br><span class="line">	<span class="built_in">memset</span>(&amp;pfd, <span class="number">0</span>, <span class="keyword">sizeof</span>(PIXELFORMATDESCRIPTOR));	<span class="comment">//初始化对象内存</span></span><br><span class="line">	pfd.nVersion = <span class="number">1</span>;<span class="comment">//直接写1就好</span></span><br><span class="line">	pfd.nSize = <span class="keyword">sizeof</span>(PIXELFORMATDESCRIPTOR);<span class="comment">//该结构体占用多大内存</span></span><br><span class="line">	pfd.cColorBits = <span class="number">32</span>;<span class="comment">//颜色值位数</span></span><br><span class="line">	pfd.cDepthBits = <span class="number">24</span>;<span class="comment">//深度值位数</span></span><br><span class="line">	pfd.cStencilBits = <span class="number">8</span>;<span class="comment">//蒙版值位数</span></span><br><span class="line">	pfd.iPixelType = PFD_TYPE_RGBA;<span class="comment">//像素类型为RGBA</span></span><br><span class="line">	pfd.dwFlags = PFD_DRAW_TO_WINDOW<span class="comment">//绘制的窗口</span></span><br><span class="line">		| PFD_SUPPORT_OPENGL<span class="comment">//支持OpenGL</span></span><br><span class="line">		| PFD_DOUBLEBUFFER;	<span class="comment">//双缓冲区</span></span><br><span class="line">    <span class="comment">//选择符合要求的像素格式,并且把其他参数设置完整</span></span><br><span class="line">	<span class="keyword">int</span> pixelFormat = ChoosePixelFormat(dc, &amp;pfd);</span><br><span class="line">	SetPixelFormat(dc, pixelFormat, &amp;pfd);<span class="comment">//设置像素格式</span></span><br><span class="line">	HGLRC rc = wglCreateContext(dc);<span class="comment">//图形操作描述表。OpenGL Render Contex</span></span><br><span class="line">	wglMakeCurrent(dc, rc);<span class="comment">//让gl环境生效</span></span><br><span class="line">	glewInit();<span class="comment">//初始化glew</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要是能出现这样的窗口那就大功告成了。</p>
+<p><img src="/2018/01/05/（一）OpenGL环境搭建/result.png" alt="esul"></p>
+
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Eamon</a>
+            
+        </div>
+        <div>
+            
+        </div>  
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/01/06/（二）绘制第一个三角形/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
+    
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNTE0OS8xMTY4NA==">
+  <script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+         if (typeof LivereTower === 'function') { return; }
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  </script>
+</div>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">    
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget notification">
+        <h3 class="title">网站公告</h3>
+        <div>
+            <p>Eamon_Chen@126.com<br/>
+</p>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget">
+      <h3 class="title">社交</h3> 
+        <div class="content social">
+            
+	            <a href="//eamon_chen@126.com" rel="external nofollow" title="邮箱" target="_blank">
+			    	<i class="envelope-o fa fa-envelope-o"></i>
+			    </a>
+            
+        </div>
+    </div>
+
+
+        
+        
+    <div class="widget">
+        <h3 class="title">分类</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/"><i class="fa" aria-hidden="true">OpenGL</i></a><span class="category-list-count">14</span></li></ul>
+    </div>
+
+
+        
+        
+    <div class="widget">
+      <h3 class="title">归档</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">三月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/"><i class="fa" aria-hidden="true">二月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/"><i class="fa" aria-hidden="true">一月 2018</i></a><span class="archive-list-count">10</span></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">标签云</h3>
+    <div class="content tag-cloud">
+        <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a>
+    </div>
+  </div>
+
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>
