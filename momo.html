@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width">
+	<title>Touch</title>
+	<style type="text/css" media="screen">
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: sans-serif;
+			text-align: center;
+		}
+		
+		.button {
+			font-size: 16px;
+			padding: 10px;
+			font-weight: bold;
+			border: 0;
+			color: #fff;
+			border-radius: 10px;
+			box-shadow: inset 0px 1px 3px #fff, 0px 1px 2px #000;
+			background: #ff3019;
+			opacity: 1;
+		}
+		
+		.active, .button:active {
+			box-shadow: inset 0px 1px 3px #000, 0px 1px 2px #fff;
+		}
+ 
+		.hidden {
+			display: none;
+		}
+	</style>
+</head>
+
+<style> 
+.divcss5-left{float:left;width:100%;height:50px; solid #F00} 
+</style>
+
+<body>
+	<div id="paomianPanel" style="display: block">
+		<div class="paomian" style="display: block">
+			<p>莫莫，如果你是泡面你会是什么口味？</p>
+			<a href="http://www.flickr.com/photos/j_benson/3504443844/" 
+				title="Goldfinch by ibm4381, on Flickr">
+				<img src="http://img1.2345.com/duoteimg/qqTxImg/2012/04/09/13339510584349.jpg" 
+					width="320" height="256" alt="Goldfinch">
+			</a>
+			<dir>
+			 <form class="mui-input-group">
+			     <div style="width: 300;margin-left: 10px;">
+                    <div class="divcss5-left" >
+                         <input id="r1" name="paomian" value="paomian1" type="radio" checked><label for="r1">火鸡面</label>
+                    </div>
+                    <div class="divcss5-left" >
+                       <input id="r2" name="paomian" value="paomian2" type="radio"> <label for="r2">老坛酸菜面</label>                        
+                    </div>
+                    <div class="divcss5-left">
+                        <input id="r3" name="paomian" value="paomian3" type="radio"><label for="r3">汤达人</label>
+                    </div>
+					<div class="divcss5-left" >
+                        <input id="r4" name="paomian" value="paomian4" type="radio"><label for="r4">红烧牛肉面</label>
+                    </div>
+                </div>
+                </form>
+			</dir>
+		</div>
+		<button class="button" id="submit">确认</button>
+	</div>
+	
+	<div id="biaobaiPanel" style="display: none">
+		<div class="paomian" style="display: block">
+			<div id="paomian1" style="display: none"><p>你是火鸡面，那我可以泡你吗？</p></div>
+			<div id="paomian2" style="display: none"><p>你是老坛酸菜面，那我可以泡你吗？</p></div>
+			<div id="paomian3" style="display: none"><p>你是汤达人，那我可以泡你吗？</p></div>
+			<div id="paomian4" style="display: none"><p>你是红烧牛肉面，那我可以泡你吗？</p></div>
+			
+			
+			<a href="http://www.flickr.com/photos/j_benson/3504443844/" 
+				title="Goldfinch by ibm4381, on Flickr">
+				<img src="http://img1.2345.com/duoteimg/qqTxImg/2012/04/09/13339510584349.jpg" 
+					width="320" height="256" alt="Goldfinch">
+			</a>
+				<div id="noTip1" style="display: none"><p>我可以陪你看电影</p></div>
+				<div id="noTip2" style="display: none"><p>我可以带你去吃好次的</p></div>
+				<div id="noTip3" style="display: none"><p>我可以陪你聊天</p></div>
+				<div id="noTip4" style="display: none"><p>我可以带你去你想去的地方</p></div>
+				<div id="noTip5" style="display: none"><p>我可以。。。我都可以!</p></div>
+				<div id="noTip6" style="display: none"><p>真的不考虑下？</p></div>
+				
+			<dir>
+			</dir>
+		</div>
+		<button class="button" id="yesBtn">可以</button>
+		<button class="button" id="noBtn">不行</button>
+	</div>
+	
+	<div id="finalPanel" style="display: none">
+		<div style="display: block">
+			<div>
+			<p>
+				你是火鸡面，那我可以泡你吗？
+			</p>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" charset="utf-8">
+	var yesBtn = document.getElementById('yesBtn');
+	var noBtn = document.getElementById('noBtn');
+	var noTipIdx = 1;
+	function changeToFinalPanel(){
+		var finalPanel = document.getElementById('finalPanel');
+		if(finalPanel != null)
+		{
+			finalPanel.style.display = "block";
+		}
+		var biaobaiPanel = document.getElementById("biaobaiPanel");
+		if(biaobaiPanel != null)
+		{
+			biaobaiPanel.style.display = "none";
+					
+		}
+	}
+	
+	function noBtnClick(){
+		var noTipLabel = document.getElementById("noTip" + noTipIdx);
+	
+		if(noTipLabel != null)
+		{
+			noTipLabel.style.display = "block";
+			noTipIdx = noTipIdx + 1;
+		}else
+		{
+			changeToFinalPanel()
+		}
+	}
+	
+	noBtn.addEventListener('touchstart', function(e){
+		alert("touchstart");
+		//阻止事件的默认行为导致按钮不会出现活跃状态(active)
+//		e.preventDefault();
+		e.target.className = "active button";
+		noBtnClick();
+	});
+	
+	noBtn.addEventListener('touchend', function(e){
+		//e.preventDefault();
+		e.target.className = "button";
+	});
+	
+	noBtn.addEventListener("click", function(e){
+		noBtnClick();
+				
+	});
+	
+	
+	yesBtn.addEventListener('touchstart', function(e){
+		alert("touchstart");
+		//阻止事件的默认行为导致按钮不会出现活跃状态(active)
+//		e.preventDefault();
+		e.target.className = "active button";
+		changeToFinalPanel();
+	});
+	
+	yesBtn.addEventListener('touchend', function(e){
+		//e.preventDefault();
+		e.target.className = "button";
+	});
+	
+	yesBtn.addEventListener("click", function(e){
+		changeToFinalPanel();
+				
+	});
+	
+	
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	var submitBtn = document.getElementById('submit');
+	function toBiaobaiPanel(){
+	
+		var paomianPanel = document.getElementById("paomianPanel");
+		if(paomianPanel != null)
+		{
+			paomianPanel.style.display = "none";
+		}
+			
+		var biaobaiPanel = document.getElementById("biaobaiPanel");
+		if(biaobaiPanel != null)
+		{
+			biaobaiPanel.style.display = "block";
+					
+		}
+		
+		var obj = document.getElementsByName("paomian");
+		for(var i=0; i<obj.length; i ++){
+			if(obj[i].checked){
+				var p = document.getElementById(obj[i].value);
+				//alert(obj[i].value);
+				//alert(p);
+				if(p != null)
+				{
+					p.style.display = "block";
+							
+				}
+			}
+		}
+	}
+	
+	submitBtn.addEventListener('touchstart', function(e){
+		alert("touchstart");
+		//阻止事件的默认行为导致按钮不会出现活跃状态(active)
+//		e.preventDefault();
+		e.target.className = "active button";
+		toBiaobaiPanel();
+	});
+	
+	submitBtn.addEventListener('touchend', function(e){
+		//e.preventDefault();
+		e.target.className = "button";
+	});
+	
+	submitBtn.addEventListener("click", function(e){
+		toBiaobaiPanel();
+				
+	});
+
+
+</script>
+
+</html>
